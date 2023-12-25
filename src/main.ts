@@ -1,6 +1,4 @@
-import { analytics } from './modules/analytics.js'
+import { onInit } from './start';
 
-const message = 'Hello NodeJS'
-console.log(message)
-
-analytics('Main.ts!')
+console.log('DONE');
+onInit();
