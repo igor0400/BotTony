@@ -1,4 +1,6 @@
-import { onInit } from './start';
+import './common/init';
+import './bot/init';
 
-console.log('DONE');
-onInit();
+import './start/start.controller';
+
+console.log('\x1b[32mBot successfully started!\x1b[0m');

@@ -1,1 +1,1 @@
-export * from './start.controller';
+export { mcData } from './start.service';
