@@ -12,6 +12,7 @@ export const startDatabase = async () => {
     homeCords VARCHAR(50),
     isFollow BOOLEAN DEFAULT 0,
     isGuarding BOOLEAN DEFAULT 0,
+    isCollecting BOOLEAN DEFAULT 0,
     followUserName VARCHAR(50)
 )`);
 };

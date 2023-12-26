@@ -15,5 +15,6 @@ export interface BotModel extends AbstractModel {
   homeCords?: string;
   isFollow: boolean;
   isGuarding: boolean;
+  isCollecting: boolean;
   followUserName?: string;
 }
