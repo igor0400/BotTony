@@ -9,6 +9,7 @@ export const startDatabase = async () => {
     serverPort VARCHAR(50) NOT NULL,
     ownerName VARCHAR(50) NOT NULL,
     botName VARCHAR(50) DEFAULT "Tony",
+    lang VARCHAR(20) DEFAULT "ru",
     homeCords VARCHAR(50),
     isFollow BOOLEAN DEFAULT 0,
     isGuarding BOOLEAN DEFAULT 0,

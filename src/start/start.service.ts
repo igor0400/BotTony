@@ -10,8 +10,6 @@ export const onInit = async () => {
   bot.chat(`Всем привет, я ${botName}`);
 
   if (!botData.homeCords) {
-    const { x, y, z } = bot.entity.position;
-
-    await setHomePos({ x: Math.floor(x), y: Math.floor(y), z: Math.floor(z) });
+    await setHomePos(bot?.entity?.position?.floored());
   }
 };

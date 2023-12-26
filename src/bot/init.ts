@@ -6,7 +6,7 @@ import { pathfinder } from 'mineflayer-pathfinder';
 import { plugin as autoeat } from 'mineflayer-auto-eat';
 import { plugin as collectBlock } from 'mineflayer-collectblock';
 import { BotModel } from './types';
-import { getId } from '../common';
+import { getId, parseCords } from '../common';
 import { getBotData } from './assets';
 
 if (!botHost || !botPort) {
@@ -28,6 +28,7 @@ export const botData: BotModel = {
   serverPort: botPort,
   ownerName,
   botName,
+  lang: 'ru',
   isFollow: false,
   isGuarding: false,
   isCollecting: false,
@@ -35,7 +36,13 @@ export const botData: BotModel = {
 
 export const changeBotData = (opts: object) => {
   for (const value in opts) {
-    botData[value] = opts[value];
+    if (value === 'homeCords') {
+      if (typeof opts[value] === 'string') {
+        botData[value] = parseCords(opts[value]);
+      }
+    } else {
+      botData[value] = opts[value];
+    }
   }
 };
 
