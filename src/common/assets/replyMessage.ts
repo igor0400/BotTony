@@ -1,4 +1,4 @@
-import { bot } from '../../bot';
+import { bot } from '../../bot/index.js';
 
 export const replyMessage = (text: string) => {
   setTimeout(() => {

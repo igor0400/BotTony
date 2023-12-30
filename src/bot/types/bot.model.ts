@@ -1,4 +1,4 @@
-import { AbstractModel, CordsType } from '../../common';
+import { AbstractModel, CordsType } from '../../common/index.js';
 
 export interface BotCreationArgs {
   serverHost: string;
@@ -14,8 +14,4 @@ export interface BotModel extends AbstractModel {
   botName: string;
   lang: 'ru' | 'en';
   homeCords?: CordsType;
-  isFollow: boolean;
-  isGuarding: boolean;
-  isCollecting: boolean;
-  followUserName?: string;
 }

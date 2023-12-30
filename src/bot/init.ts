@@ -1,13 +1,12 @@
 import * as mineflayer from 'mineflayer';
 import { plugin as pvp } from 'mineflayer-pvp';
-import { botHost, botPort, botName, ownerName } from '../../config';
-import * as armourManager from 'mineflayer-armor-manager';
+import armourManager from 'mineflayer-armor-manager';
 import { pathfinder } from 'mineflayer-pathfinder';
 import { plugin as autoeat } from 'mineflayer-auto-eat';
 import { plugin as collectBlock } from 'mineflayer-collectblock';
-import { BotModel } from './types';
-import { getId, parseCords } from '../common';
-import { getBotData } from './assets';
+import { botHost, botPort, botName, ownerName } from '../../config.js';
+import { ActionCreationArgs, BotModel } from './types/index.js';
+import { getId, parseCords } from '../common/index.js';
 
 if (!botHost || !botPort) {
   throw new Error('Передайте значения BOT_HOST и BOT_PORT');
@@ -29,10 +28,9 @@ export const botData: BotModel = {
   ownerName,
   botName,
   lang: 'ru',
-  isFollow: false,
-  isGuarding: false,
-  isCollecting: false,
 };
+
+export let botAction: ActionCreationArgs | null = null;
 
 export const changeBotData = (opts: object) => {
   for (const value in opts) {
@@ -46,12 +44,9 @@ export const changeBotData = (opts: object) => {
   }
 };
 
-(async () => {
-  const data = await getBotData();
-  if (data) {
-    changeBotData(data);
-  }
-})();
+export const changeBotAction = (action: ActionCreationArgs | null) => {
+  botAction = action;
+};
 
 bot.loadPlugin(pvp);
 bot.loadPlugin(armourManager);

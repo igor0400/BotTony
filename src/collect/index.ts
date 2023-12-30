@@ -1,1 +1,1 @@
-export * from './collect.service'
+export * from './collect.service.js';

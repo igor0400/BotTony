@@ -1,1 +1,2 @@
-export * from './bot.model';
+export * from './bot.model.js';
+export * from './action.model.js';

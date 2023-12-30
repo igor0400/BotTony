@@ -1,7 +1,8 @@
-import { Movements, goals } from 'mineflayer-pathfinder';
-import { CordsType, replyMessage } from '../common';
-import { bot, botData, changeBotFollow } from '../bot';
-import { ownerName } from '../../config';
+import mineflayerPathfinder from 'mineflayer-pathfinder';
+import { CordsType, replyMessage } from '../common/index.js';
+import { bot, botAction, botData, createAction, endAction } from '../bot/index.js';
+import { ownerName } from '../../config.js';
+const { Movements, goals } = mineflayerPathfinder;
 const { GoalFollow } = goals;
 
 export const moveToPos = (position: CordsType) => {
@@ -13,6 +14,10 @@ export const moveToPos = (position: CordsType) => {
 export const moveToPosChat = (args: string[], username: string = ownerName) => {
   const changedArgs = args.map((i) => (i === 'me' ? username : i));
   const point = changedArgs[0];
+
+  if (!point) {
+    return replyMessage('Укажи куда идти! Могу на точку дома, к игроку или на координаты x y z');
+  }
 
   const botCords = bot?.entity?.position?.floored();
   let cords: CordsType = bot.players[point]?.entity?.position?.floored();
@@ -28,7 +33,10 @@ export const moveToPosChat = (args: string[], username: string = ownerName) => {
   if (!cords) {
     const [x, y, z] = changedArgs;
     if (!x || !y || !z) {
-      return replyMessage('Мне нужны координаты в формате x y z или ник игрока');
+      return replyMessage('Мне нужны координаты в формате x y z, ник игрока или точка дома');
+    }
+    if (x && y && z && (!+x || !+y || !+z)) {
+      return replyMessage('Неверно указаны координаты');
     }
 
     cords = { x: Math.floor(+x), y: Math.floor(+y), z: Math.floor(+z) };
@@ -42,21 +50,23 @@ export const moveToPosChat = (args: string[], username: string = ownerName) => {
   return moveToPos(cords);
 };
 
-export const followPlayer = async (playerName: string) => {
+export const followPlayer = async (playerName: string, isNew = true) => {
   const player = bot.players[playerName];
 
   if (!player?.entity) {
     return false;
   }
 
-  await changeBotFollow({ isFollow: true, followUserName: playerName });
+  if (isNew) {
+    await createAction({ type: 'follow', extraData: playerName });
+  }
 
   const movements = new Movements(bot);
   movements.scafoldingBlocks = [];
 
   bot.pathfinder.setMovements(movements);
 
-  const goal = new GoalFollow(player.entity, 3);
+  const goal = new GoalFollow(player.entity, 2);
   bot.pathfinder.setGoal(goal, true);
 
   return true;
@@ -67,20 +77,22 @@ export const followPlayerChat = async (args: string[], username: string) => {
 
   const isSuccess = await followPlayer(player);
   if (isSuccess) {
-    replyMessage(`Теперь я следую за ${botData.followUserName}`);
+    replyMessage(`Теперь я следую за ${player}`);
   } else {
     replyMessage(`Не понимаю за кем следовать`);
   }
 };
 
 export const unfollowPlayer = async () => {
-  if (botData.isFollow) {
-    await changeBotFollow({ isFollow: false, followUserName: null });
+  if (botAction?.type === 'follow') {
+    await endAction('follow');
     bot.pathfinder.setGoal(null);
   }
 };
 
 export const unfollowPlayerChat = async () => {
-  replyMessage(`Я больше не следую за ${botData.followUserName}`);
-  await unfollowPlayer();
+  if (botAction?.type === 'follow') {
+    replyMessage(`Я больше не следую за ${botAction.extraData}`);
+    await unfollowPlayer();
+  }
 };

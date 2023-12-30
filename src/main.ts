@@ -1,12 +1,12 @@
 // inits
-import './common/init';
-import './bot/init';
+import './init.js';
+import './bot/init.js';
 
 // controllers
-import './start/start.controller';
-import './bot/bot.controller';
-import './collect/collect.controller';
-import './health/health.controller';
-import './chat/chat.controller';
+import './start/start.controller.js';
+import './bot/bot.controller.js';
+import './collect/collect.controller.js';
+import './health/health.controller.js';
+import './chat/chat.controller.js';
 
 console.log('\x1b[32mBot successfully started!\x1b[0m');

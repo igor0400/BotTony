@@ -1,5 +1,5 @@
-export * from './init';
-export { BotModel } from './types';
-export * from './database';
-export * from './bot.service';
-export * from './assets';
+export * from './init.js';
+export { BotModel } from './types/index.js';
+export * from './database/index.js';
+export * from './bot.service.js';
+export * from './assets/index.js';

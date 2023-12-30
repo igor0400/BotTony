@@ -1,5 +1,5 @@
 import * as mysql from 'mysql2';
-import { databaseHost, databaseName, databasePassword, databasePort, databaseUser } from '../../../config';
+import { databaseHost, databaseName, databasePassword, databasePort, databaseUser } from '../../../config.js';
 
 export const dbConfig = {
   host: databaseHost,
@@ -22,5 +22,5 @@ const poolDbConfig = {
 
 export const pool = mysql.createPool(poolDbConfig);
 
-export * from './custom-request';
-export * from './start';
+export * from './custom-request.js';
+export * from './start.js';

@@ -1,6 +1,6 @@
-import { CordsType, replyMessage } from '../common';
-import { updateBotHomeCords } from './database';
-import { bot } from './init';
+import { CordsType, replyMessage } from '../common/index.js';
+import { updateBotHomeCords } from './database/index.js';
+import { bot } from './init.js';
 
 export const setHomePos = async (position: CordsType) => {
   let homePos: CordsType = position;
@@ -24,7 +24,7 @@ export const setHomePosChat = async (args: string[], username: string) => {
 
   if (!cords) {
     const [x, y, z] = changedArgs;
-    if (x && y && z) {
+    if (+x && +y && +z) {
       cords = { x: Math.floor(+x), y: Math.floor(+y), z: Math.floor(+z) };
     }
   }

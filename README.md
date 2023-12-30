@@ -1,3 +1,3 @@
 # BOT Tony
 
-Tony — это бот для совместной игры в Minecraft
+Tony – это бот для совместной игры в Minecraft

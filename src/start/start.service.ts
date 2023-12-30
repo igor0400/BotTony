@@ -1,6 +1,6 @@
-import { botName } from '../../config';
-import { bot, setHomePos, botData } from '../bot';
-import * as minecraftData from 'minecraft-data';
+import minecraftData from 'minecraft-data';
+import { botName } from '../../config.js';
+import { bot, setHomePos, botData, continueAction } from '../bot/index.js';
 
 export let mcData;
 
@@ -12,4 +12,6 @@ export const onInit = async () => {
   if (!botData.homeCords) {
     await setHomePos(bot?.entity?.position?.floored());
   }
+
+  await continueAction();
 };

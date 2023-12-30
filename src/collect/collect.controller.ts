@@ -1,5 +1,5 @@
-import { bot } from '../bot';
-import { takeMainItems } from './collect.service';
+import { bot } from '../bot/index.js';
+import { takeMainItems } from './collect.service.js';
 
 bot.on('playerCollect', (collector) => {
   if (collector === bot.entity) {

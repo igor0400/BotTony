@@ -1,7 +1,7 @@
-import { replyMessage } from '../common';
-import { botName } from '../../config';
-import { bot } from '../bot';
-import { chatCommandsHandler } from './chat.service';
+import { replyMessage } from '../common/index.js';
+import { botName } from '../../config.js';
+import { bot } from '../bot/index.js';
+import { chatCommandsHandler } from './chat.service.js';
 
 bot.on('chat', async (username: string, message: string) => {
   if (username === bot.username) return;

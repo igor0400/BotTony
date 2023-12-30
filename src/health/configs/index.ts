@@ -1,1 +1,1 @@
-export * from './availableFood';
+export * from './availableFood.js';

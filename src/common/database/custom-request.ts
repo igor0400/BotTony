@@ -1,4 +1,4 @@
-import { pool } from './index';
+import { pool } from './index.js';
 
 interface Options {
   limit: number;

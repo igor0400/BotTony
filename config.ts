@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 // bot
 export const botHost = process.env.BOT_HOST;
 export const botPort = +process.env.BOT_PORT;

@@ -1,26 +1,23 @@
-import { setHomePosChat } from '../../bot';
-import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../move';
+import { commandMiddleware } from '../../common/index.js';
+import { setHomePosChat } from '../../bot/index.js';
+import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../move/index.js';
 
 export const commands = {
   private: {
     sethome: {
-      action: setHomePosChat,
+      action: (username: string, args: string[]) => commandMiddleware(setHomePosChat, username, args),
     },
     go: {
       replaceArgs: ['to'],
-      action: moveToPosChat,
+      action: (username: string, args: string[]) => commandMiddleware(moveToPosChat, username, args),
     },
     follow: {
       replaceArgs: ['to'],
-      action: followPlayerChat,
+      action: (username: string, args: string[]) => commandMiddleware(followPlayerChat, username, args),
     },
     unfollow: {
-      action: unfollowPlayerChat,
+      action: (username: string, args: string[]) => commandMiddleware(unfollowPlayerChat, username, args),
     },
   },
   public: {},
 };
-
-// обработать действия
-// если бот входит и есть какие то действия, начинать их делать
-// прерывать действия при новой команде (сделать функцию для заканчивания всех действий)

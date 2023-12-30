@@ -1,11 +1,11 @@
-import { customRequest, getId } from '../../common';
-import { botData, changeBotData } from '../init';
-import { BotCreationArgs, BotModel } from '../types/bot.model';
+import { customRequest, getId } from '../../common/index.js';
+import { botData, changeBotData } from '../init.js';
+import { BotCreationArgs, BotModel } from '../types/index.js';
 
-export const createBot = async ({ serverHost, serverPort, ownerName }: BotCreationArgs) => {
+export const createBot = async ({ serverHost, serverPort, ownerName, botName }: BotCreationArgs) => {
   const id = getId();
   const data = await customRequest(
-    `INSERT INTO bots (id, serverHost, serverPort, ownerName) VALUES ("${id}", "${serverHost}", "${serverPort}", "${ownerName}")`,
+    `INSERT INTO bots (id, serverHost, serverPort, ownerName, botName) VALUES ("${id}", "${serverHost}", "${serverPort}", "${ownerName}", "${botName}")`,
   );
 
   changeBotData({ id, serverHost, serverPort, ownerName });
@@ -27,26 +27,6 @@ export const updateBotHomeCords = async ({ id = botData?.id, cords }: { id?: str
   const data = await customRequest(`UPDATE bots SET homeCords = "${cords}" WHERE id = "${id}"`);
 
   changeBotData({ homeCords: cords });
-
-  return data;
-};
-
-export const changeBotFollow = async ({
-  id = botData?.id,
-  isFollow,
-  followUserName,
-}: {
-  id?: string;
-  isFollow: boolean;
-  followUserName: string | null;
-}) => {
-  const data = await customRequest(
-    `UPDATE bots SET isFollow = ${isFollow ? '1' : '0'}, followUserName = ${
-      followUserName ? `"${followUserName}"` : 'NULL'
-    } WHERE id = "${id}"`,
-  );
-
-  changeBotData({ isFollow, followUserName });
 
   return data;
 };

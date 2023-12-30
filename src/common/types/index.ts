@@ -1,2 +1,2 @@
-export * from './abstract.nodel';
-export * from './movements';
+export * from './abstract.model.js';
+export * from './movements.js';

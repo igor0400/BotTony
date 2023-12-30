@@ -1,3 +1,3 @@
-export * from './getId';
-export * from './parseCords';
-export * from './replyMessage';
+export * from './getId.js';
+export * from './parseCords.js';
+export * from './replyMessage.js';

@@ -1,5 +1,5 @@
-import { bot, takeInventoryItem } from '../bot';
-import { collectingFood } from './configs';
+import { bot, takeInventoryItem } from '../bot/index.js';
+import { collectingFood } from './configs/index.js';
 
 export const takeMainItems = () => {
   // взять мечь

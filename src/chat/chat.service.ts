@@ -1,5 +1,5 @@
-import { ownerName } from '../../config';
-import { commands } from './configs';
+import { ownerName } from '../../config.js';
+import { commands } from './configs/index.js';
 
 export const chatCommandsHandler = async (username: string, args: string[]) => {
   const chatCommand = args[0];

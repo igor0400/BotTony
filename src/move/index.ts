@@ -1,1 +1,1 @@
-export * from './move.service';
+export * from './move.service.js';

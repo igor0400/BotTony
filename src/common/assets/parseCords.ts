@@ -1,4 +1,4 @@
-import { CordsType } from '../types';
+import { CordsType } from '../types/index.js';
 
 export const parseCords = (cords: string): CordsType => {
   const [x, y, z] = cords.split(' ');

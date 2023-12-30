@@ -1,5 +1,5 @@
-import { bot } from '../bot';
-import { onInit } from './start.service';
+import { bot } from '../bot/index.js';
+import { onInit } from './start.service.js';
 
 bot.once('spawn', onInit);
 

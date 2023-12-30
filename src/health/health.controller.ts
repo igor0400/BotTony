@@ -1,5 +1,5 @@
-import { bot } from '../bot';
-import { checkInventoryFood } from './health.service';
+import { bot } from '../bot/index.js';
+import { checkInventoryFood } from './health.service.js';
 
 bot.once('spawn', () => {
   bot.autoEat.options = {
