@@ -1,3 +1,4 @@
+import { repliesLocale } from '../locale/index.js';
 import { bot } from '../bot/index.js';
 import { checkInventoryFood } from './health.service.js';
 
@@ -15,6 +16,8 @@ bot.once('spawn', () => {
 });
 
 bot.on('health', () => {
+  const { haveOnlyHp } = repliesLocale;
+
   if (bot.food === 19) {
     checkInventoryFood();
   }
@@ -26,6 +29,6 @@ bot.on('health', () => {
   }
 
   if (Math.floor(bot.health) === 6) {
-    bot.chat('У меня осталось 3 хп');
+    bot.chat(haveOnlyHp(3));
   }
 });

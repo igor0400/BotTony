@@ -1,5 +1,5 @@
 import { customRequest, getId } from '../../common/index.js';
-import { botData, changeBotAction } from '../init.js';
+import { botAction, botData, changeBotAction } from '../init.js';
 import { ActionCreationArgs, ActionModel } from '../types/index.js';
 
 export const createAction = async ({ botId = botData?.id, type, extraData }: ActionCreationArgs) => {

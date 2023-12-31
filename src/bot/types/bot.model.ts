@@ -12,6 +12,6 @@ export interface BotModel extends AbstractModel {
   serverPort: string | number;
   ownerName: string;
   botName: string;
-  lang: 'ru' | 'en';
+  lang: string;
   homeCords?: CordsType;
 }

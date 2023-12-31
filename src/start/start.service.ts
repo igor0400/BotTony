@@ -1,13 +1,14 @@
 import minecraftData from 'minecraft-data';
-import { botName } from '../../config.js';
 import { bot, setHomePos, botData, continueAction } from '../bot/index.js';
+import { botChatName, repliesLocale } from '../locale/index.js';
 
 export let mcData;
 
 export const onInit = async () => {
   mcData = minecraftData(bot.version);
+  const { hello } = repliesLocale;
 
-  bot.chat(`Всем привет, я ${botName}`);
+  bot.chat(hello(botChatName));
 
   if (!botData.homeCords) {
     await setHomePos(bot?.entity?.position?.floored());

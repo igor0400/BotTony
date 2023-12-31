@@ -2,6 +2,7 @@ import mineflayerPathfinder from 'mineflayer-pathfinder';
 import { CordsType, replyMessage } from '../common/index.js';
 import { bot, botAction, botData, createAction, endAction } from '../bot/index.js';
 import { ownerName } from '../../config.js';
+import { entitiesLocale, repliesLocale } from '../locale/index.js';
 const { Movements, goals } = mineflayerPathfinder;
 const { GoalFollow } = goals;
 
@@ -12,11 +13,13 @@ export const moveToPos = (position: CordsType) => {
 };
 
 export const moveToPosChat = (args: string[], username: string = ownerName) => {
-  const changedArgs = args.map((i) => (i === 'me' ? username : i));
+  const changedArgs = args.map((i) => (entitiesLocale.me.includes(i.toLowerCase()) ? username : i));
   const point = changedArgs[0];
 
+  const { nullGoArgs, farPlayer, nullCords, badCords, alreadyHere, alreadyRun } = repliesLocale;
+
   if (!point) {
-    return replyMessage('Укажи куда идти! Могу на точку дома, к игроку или на координаты x y z');
+    return replyMessage(nullGoArgs());
   }
 
   const botCords = bot?.entity?.position?.floored();
@@ -27,26 +30,26 @@ export const moveToPosChat = (args: string[], username: string = ownerName) => {
   }
 
   if (!cords && bot.players[point] && !bot.players[point]?.entity) {
-    return replyMessage('Ты слишком далеко, я тебя не вижу, напиши координаты в формате x y z');
+    return replyMessage(farPlayer());
   }
 
   if (!cords) {
     const [x, y, z] = changedArgs;
     if (!x || !y || !z) {
-      return replyMessage('Мне нужны координаты в формате x y z, ник игрока или точка дома');
+      return replyMessage(nullCords());
     }
     if (x && y && z && (!+x || !+y || !+z)) {
-      return replyMessage('Неверно указаны координаты');
+      return replyMessage(badCords());
     }
 
     cords = { x: Math.floor(+x), y: Math.floor(+y), z: Math.floor(+z) };
   }
 
   if (cords.x === botCords.x && cords.y === botCords.y && cords.z === botCords.z) {
-    return replyMessage('Я уже тут!');
+    return replyMessage(alreadyHere());
   }
 
-  replyMessage('Уже бегу!');
+  replyMessage(alreadyRun());
   return moveToPos(cords);
 };
 
@@ -73,26 +76,34 @@ export const followPlayer = async (playerName: string, isNew = true) => {
 };
 
 export const followPlayerChat = async (args: string[], username: string) => {
-  const player = args[0]?.replaceAll('me', username) ?? username;
+  const player = args[0]?.replaceAll(RegExp(`(${entitiesLocale.me.join('|')})`, 'gi'), username) ?? username;
+  const { startFollow, startFollowError } = repliesLocale;
 
   const isSuccess = await followPlayer(player);
   if (isSuccess) {
-    replyMessage(`Теперь я следую за ${player}`);
+    replyMessage(startFollow(player));
   } else {
-    replyMessage(`Не понимаю за кем следовать`);
+    replyMessage(startFollowError());
   }
 };
 
 export const unfollowPlayer = async () => {
-  if (botAction?.type === 'follow') {
+  if (botAction.value?.type === 'follow') {
     await endAction('follow');
     bot.pathfinder.setGoal(null);
   }
 };
 
 export const unfollowPlayerChat = async () => {
-  if (botAction?.type === 'follow') {
-    replyMessage(`Я больше не следую за ${botAction.extraData}`);
+  const { unfollow } = repliesLocale;
+
+  console.log('follow', botAction);
+  // не меняет botAction.value
+  // меняет, но функция не видит этого
+  // поменять обратно на botAction?.type
+
+  if (botAction.value?.type === 'follow') {
+    replyMessage(unfollow(botAction.value.extraData));
     await unfollowPlayer();
   }
 };
