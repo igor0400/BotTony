@@ -5,7 +5,7 @@ export const botHost = process.env.BOT_HOST;
 export const botPort = +process.env.BOT_PORT;
 export const botName = process.env.BOT_NAME ?? 'Tony';
 export const ownerName = process.env.OWNER_NAME ?? 'Swingor';
-export const lang = process.env.LANG ?? 'ru';
+export const lang = process.env.BOT_LANG ?? 'ru';
 
 // database
 export const databaseHost = process.env.DATABASE_HOST ?? 'localhost';

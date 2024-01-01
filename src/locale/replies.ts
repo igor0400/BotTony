@@ -19,6 +19,8 @@ const replies = {
     startFollowError: () => 'Не понимаю за кем следовать',
     unfollow: (player: string) => `Я больше не следую за ${player}`,
     haveOnlyHp: (count: number) => `У меня осталось ${count} хп`,
+    alreadyDo: () => 'Я уже делаю это!',
+    dontWriteMyName: () => 'Ты указал моё имя!',
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
@@ -38,6 +40,8 @@ const replies = {
     startFollowError: () => "I don't know who to follow",
     unfollow: (player: string) => `I don't follow ${player} anymore`,
     haveOnlyHp: (count: number) => `I have ${count} hp left`,
+    alreadyDo: () => "I'm already doing it!",
+    dontWriteMyName: () => 'You wrote my name!',
   },
 };
 

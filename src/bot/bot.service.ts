@@ -1,6 +1,7 @@
 import { CordsType, replyMessage } from '../common/index.js';
 import { updateBotHomeCords } from './database/index.js';
 import { bot } from './init.js';
+import { isEntityWord, repliesLocale } from '../locale/index.js';
 
 export const setHomePos = async (position: CordsType) => {
   let homePos: CordsType = position;
@@ -13,12 +14,14 @@ export const setHomePos = async (position: CordsType) => {
 };
 
 export const setHomePosChat = async (args: string[], username: string) => {
-  const changedArgs = args.map((i) => (i === 'me' ? username : i));
+  const changedArgs = args.map((i) => (isEntityWord('me', i) ? username : i));
   const point = changedArgs[0] ?? username;
+
+  const { newSethome } = repliesLocale;
 
   let cords: CordsType = bot?.players[point]?.entity?.position?.floored();
 
-  if (point.toLowerCase() === 'you' || point.toLowerCase() === 'u') {
+  if (isEntityWord('you', point)) {
     cords = bot?.entity?.position?.floored();
   }
 
@@ -34,7 +37,7 @@ export const setHomePosChat = async (args: string[], username: string) => {
   }
 
   await setHomePos(cords);
-  replyMessage('Я запомнил новую точку дома!');
+  replyMessage(newSethome());
 };
 
 export const lookForPlayer = async () => {

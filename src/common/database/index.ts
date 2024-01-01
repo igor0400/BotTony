@@ -22,5 +22,8 @@ const poolDbConfig = {
 
 export const pool = mysql.createPool(poolDbConfig);
 
+// ЗАВИСАЮТ ЗАПРОСЫ К БАЗЕ
+// посмотреть зайд mysql по подключению, мб сменить бд (очень хороший выриант)
+
 export * from './custom-request.js';
 export * from './start.js';

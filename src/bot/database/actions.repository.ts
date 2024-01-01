@@ -1,5 +1,6 @@
 import { customRequest, getId } from '../../common/index.js';
-import { botAction, botData, changeBotAction } from '../init.js';
+import { changeBotAction } from '../assets/index.js';
+import { botData } from '../assets/index.js';
 import { ActionCreationArgs, ActionModel } from '../types/index.js';
 
 export const createAction = async ({ botId = botData?.id, type, extraData }: ActionCreationArgs) => {
@@ -32,7 +33,7 @@ export const getFirstAction = async () => {
 export const deleteActionById = async (id: string) => {
   const data = await customRequest(`DELETE FROM actions WHERE id = "${id}"`);
 
-  changeBotAction(null);
+  changeBotAction();
   await decActionsExecNum();
 
   return data;
@@ -49,7 +50,7 @@ export const getActionByType = async (type: string) => {
 export const deleteActionByType = async (type: string) => {
   const data = await customRequest(`DELETE FROM actions WHERE type = "${type}" AND botId = "${botData?.id}"`);
 
-  changeBotAction(null);
+  changeBotAction();
   await decActionsExecNum();
 
   return data;
@@ -58,7 +59,7 @@ export const deleteActionByType = async (type: string) => {
 export const deleteAllActions = async () => {
   const data = await customRequest(`DELETE FROM actions`);
 
-  changeBotAction(null);
+  changeBotAction();
 
   return data;
 };

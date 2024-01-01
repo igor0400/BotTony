@@ -36,7 +36,8 @@ const commands = {
   },
   ru: {
     sethome: {
-      titles: ['новыйдом'],
+      titles: ['новыйдом', 'запомнидом', 'поставьдом', 'установидом'],
+      replaceArgs: ['у', 'там', 'где', 'около', 'перед'],
     },
     go: {
       titles: ['иди'],
@@ -57,11 +58,13 @@ export const commandsLocale = commands[lang] ?? commands.ru;
 export const entities = {
   ru: {
     me: ['я', 'мне', 'меня', 'мной'],
-    you: ['ты', 'тебя', 'тебе'],
+    you: ['ты', 'тебя', 'тебе', 'себе', 'себя'],
+    home: ['дом', 'домой', 'дома', 'хом', 'хоум'],
   },
   en: {
     me: ['i', 'me', 'my'],
     you: ['you', 'u'],
+    home: ['home'],
   },
 };
 

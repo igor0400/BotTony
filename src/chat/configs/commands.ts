@@ -7,19 +7,19 @@ export const commands = {
   private: {
     sethome: {
       ...commandsLocale.sethome,
-      action: (username: string, args: string[]) => commandMiddleware(setHomePosChat, username, args),
+      action: (args: string[], username: string) => commandMiddleware(setHomePosChat, args, username),
     },
     go: {
       ...commandsLocale.go,
-      action: (username: string, args: string[]) => commandMiddleware(moveToPosChat, username, args),
+      action: (args: string[], username: string) => commandMiddleware(moveToPosChat, args, username),
     },
     follow: {
       ...commandsLocale.follow,
-      action: (username: string, args: string[]) => commandMiddleware(followPlayerChat, username, args),
+      action: (args: string[], username: string) => commandMiddleware(followPlayerChat, args, username),
     },
     unfollow: {
       ...commandsLocale.unfollow,
-      action: (username: string, args: string[]) => commandMiddleware(unfollowPlayerChat, username, args),
+      action: (args: string[], username: string) => commandMiddleware(unfollowPlayerChat, args, username),
     },
   },
   public: {},

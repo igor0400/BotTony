@@ -1,5 +1,5 @@
 import { customRequest, getId } from '../../common/index.js';
-import { botData, changeBotData } from '../init.js';
+import { botData, changeBotData } from '../assets/index.js';
 import { BotCreationArgs, BotModel } from '../types/index.js';
 
 export const createBot = async ({ serverHost, serverPort, ownerName, botName }: BotCreationArgs) => {

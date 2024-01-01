@@ -4,9 +4,7 @@ import armourManager from 'mineflayer-armor-manager';
 import { pathfinder } from 'mineflayer-pathfinder';
 import { plugin as autoeat } from 'mineflayer-auto-eat';
 import { plugin as collectBlock } from 'mineflayer-collectblock';
-import { botHost, botPort, botName, ownerName, lang } from '../../config.js';
-import { ActionCreationArgs, BotModel } from './types/index.js';
-import { getId, parseCords } from '../common/index.js';
+import { botHost, botPort, botName } from '../../config.js';
 
 if (!botHost || !botPort) {
   throw new Error('Передайте значения BOT_HOST и BOT_PORT');
@@ -20,33 +18,6 @@ export const bot = mineflayer.createBot({
   // version: false,
   // auth: 'mojang'
 });
-
-export const botData: BotModel = {
-  id: getId(),
-  serverHost: botHost,
-  serverPort: botPort,
-  ownerName,
-  botName,
-  lang,
-};
-
-export const botAction: { value: ActionCreationArgs | null } = { value: null };
-
-export const changeBotData = (opts: object) => {
-  for (const value in opts) {
-    if (value === 'homeCords') {
-      if (typeof opts[value] === 'string') {
-        botData[value] = parseCords(opts[value]);
-      }
-    } else {
-      botData[value] = opts[value];
-    }
-  }
-};
-
-export const changeBotAction = (action: ActionCreationArgs | null) => {
-  botAction.value = action;
-};
 
 bot.loadPlugin(pvp);
 bot.loadPlugin(armourManager);

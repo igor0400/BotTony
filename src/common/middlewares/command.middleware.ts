@@ -1,9 +1,6 @@
-import { endAllActions } from '../../bot/index.js';
-
-export const commandMiddleware = async (func: Function, username: string, args: string[]) => {
+export const commandMiddleware = async (func: Function, args: string[], username: string) => {
   try {
-    await endAllActions();
-    return func(username, args);
+    return await func(args, username);
   } catch (e) {
     console.log('Command error:', e);
   }
