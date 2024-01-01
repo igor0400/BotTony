@@ -1,8 +1,8 @@
 import mineflayerPathfinder from 'mineflayer-pathfinder';
-import { CordsType, replyMessage } from '../common/index.js';
-import { bot, botData, endAllActions } from '../bot/index.js';
-import { ownerName } from '../../config.js';
-import { isEntityWord, repliesLocale } from '../locale/index.js';
+import { CordsType, replyMessage } from '../../common/index.js';
+import { bot, botData, endAllActions } from '../../bot/index.js';
+import { ownerName } from '../../../config.js';
+import { isEntityWord, repliesLocale } from '../index.js';
 const { Movements, goals } = mineflayerPathfinder;
 
 export const moveToPos = (position: CordsType) => {

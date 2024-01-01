@@ -1,4 +1,4 @@
-import { pool } from './index.js';
+import { connection } from './index.js';
 
 interface Options {
   limit: number;
@@ -12,8 +12,7 @@ export const customRequest = async (reqStr: string, otps?: Options) => {
   const addOffset = offset ? ` OFFSET ${offset}` : '';
 
   try {
-    const connection = await pool.promise().getConnection();
-    const [result] = await connection.query(reqStr + addLimit + addOffset);
+    const [result] = await connection.promise().query(reqStr + addLimit + addOffset);
 
     return result;
   } catch (e) {

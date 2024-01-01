@@ -1,6 +1,6 @@
 import { commandMiddleware } from '../../common/index.js';
 import { setHomePosChat } from '../../bot/index.js';
-import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../move/index.js';
+import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../locale/move/index.js';
 import { commandsLocale } from '../../locale/index.js';
 
 export const commands = {

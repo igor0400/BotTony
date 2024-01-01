@@ -40,7 +40,7 @@ const commands = {
       replaceArgs: ['у', 'там', 'где', 'около', 'перед'],
     },
     go: {
-      titles: ['иди'],
+      titles: ['иди', 'идти'],
       replaceArgs: ['к', 'ко', 'на'],
     },
     follow: {

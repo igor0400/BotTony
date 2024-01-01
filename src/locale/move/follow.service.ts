@@ -1,7 +1,7 @@
 import mineflayerPathfinder from 'mineflayer-pathfinder';
-import { replyMessage } from '../common/index.js';
-import { bot, botAction, botData, createAction, endAction, endAllActions } from '../bot/index.js';
-import { entitiesLocale, repliesLocale } from '../locale/index.js';
+import { replyMessage } from '../../common/index.js';
+import { bot, botAction, botData, createAction, endAction, endAllActions } from '../../bot/index.js';
+import { entitiesLocale, repliesLocale } from '../index.js';
 const { Movements, goals } = mineflayerPathfinder;
 const { GoalFollow } = goals;
 
