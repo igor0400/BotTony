@@ -20,8 +20,9 @@ const poolDbConfig = {
   keepAliveInitialDelay: 0,
 };
 
-export const pool = mysql.createPool(poolDbConfig);
 export const connection = mysql.createConnection(dbConfig);
+// export const pool = mysql.createPool(poolDbConfig);
+// export const connection = await pool.promise().getConnection();
 
 export * from './custom-request.js';
 export * from './start.js';

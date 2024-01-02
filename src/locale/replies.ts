@@ -3,6 +3,8 @@ import { lang } from '../../config.js';
 const replies = {
   ru: {
     hello: (botName: string) => `Всем привет, я ${botName}`,
+    helloPlayer: (player: string) => `Привет, ${player}!`,
+    byePlayer: (player: string) => `Прощай, ${player} :(`,
     continueFollow: (player: string) => `Продолжаю следовать за ${player}`,
     continueFollowError: (player: string) => `Я не смог продолжить следовать за ${player}`,
     newSethome: () => 'Я запомнил новую точку дома!',
@@ -24,6 +26,8 @@ const replies = {
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
+    helloPlayer: (player: string) => `Hi, ${player}!`,
+    byePlayer: (player: string) => `Goodbye, ${player} :(`,
     continueFollow: (player: string) => `I continue to follow ${player}`,
     continueFollowError: (player: string) => `I couldn't continue to follow ${player}`,
     newSethome: () => "I've memorized the new house point!",

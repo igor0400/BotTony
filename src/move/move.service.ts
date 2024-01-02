@@ -1,8 +1,8 @@
 import mineflayerPathfinder from 'mineflayer-pathfinder';
-import { CordsType, replyMessage } from '../../common/index.js';
-import { bot, botData, endAllActions } from '../../bot/index.js';
-import { ownerName } from '../../../config.js';
-import { isEntityWord, repliesLocale } from '../index.js';
+import { CordsType, getPlayer, replyMessage } from '../common/index.js';
+import { bot, botData, endAllActions } from '../bot/index.js';
+import { ownerName } from '../../config.js';
+import { isEntityWord, repliesLocale } from '../locale/index.js';
 const { Movements, goals } = mineflayerPathfinder;
 
 export const moveToPos = (position: CordsType) => {
@@ -13,6 +13,7 @@ export const moveToPos = (position: CordsType) => {
 export const moveToPosChat = async (args: string[], username: string = ownerName) => {
   const changedArgs = args.map((i) => (isEntityWord('me', i) ? username : i));
   const point = changedArgs[0];
+  const player = getPlayer(point);
 
   const { nullGoArgs, farPlayer, nullCords, badCords, alreadyHere, alreadyRun, dontWriteMyName } = repliesLocale;
 
@@ -25,13 +26,13 @@ export const moveToPosChat = async (args: string[], username: string = ownerName
   }
 
   const botCords = bot?.entity?.position?.floored();
-  let cords: CordsType = bot.players[point]?.entity?.position?.floored();
+  let cords: CordsType = player?.entity?.position?.floored();
 
   if (isEntityWord('home', point)) {
     cords = botData.homeCords;
   }
 
-  if (!cords && bot.players[point] && !bot.players[point]?.entity) {
+  if (!cords && player && !player?.entity) {
     return replyMessage(farPlayer());
   }
 

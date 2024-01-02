@@ -1,4 +1,4 @@
-import { CordsType, replyMessage } from '../common/index.js';
+import { CordsType, getPlayer, replyMessage } from '../common/index.js';
 import { updateBotHomeCords } from './database/index.js';
 import { bot } from './init.js';
 import { isEntityWord, repliesLocale } from '../locale/index.js';
@@ -19,7 +19,7 @@ export const setHomePosChat = async (args: string[], username: string) => {
 
   const { newSethome } = repliesLocale;
 
-  let cords: CordsType = bot?.players[point]?.entity?.position?.floored();
+  let cords: CordsType = getPlayer(point)?.entity?.position?.floored();
 
   if (isEntityWord('you', point)) {
     cords = bot?.entity?.position?.floored();
@@ -33,7 +33,7 @@ export const setHomePosChat = async (args: string[], username: string) => {
   }
 
   if (!cords) {
-    cords = bot?.players[username]?.entity?.position?.floored();
+    cords = getPlayer(username)?.entity?.position?.floored();
   }
 
   await setHomePos(cords);

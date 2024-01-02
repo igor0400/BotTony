@@ -1,7 +1,14 @@
 import { commandMiddleware } from '../../common/index.js';
 import { setHomePosChat } from '../../bot/index.js';
-import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../locale/move/index.js';
+import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../move/index.js';
 import { commandsLocale } from '../../locale/index.js';
+
+// сделать соманды в формате дерева stop -> fight и тд
+// и переделать комманды который пишутся слитно, сделать комманды по типу стоп, хватит, закончи и тд
+
+// здороваться с подключившимися и прошаться с ушедшими!!!
+
+// сделать команду fight
 
 export const commands = {
   private: {

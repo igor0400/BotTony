@@ -1,12 +1,12 @@
 import mineflayerPathfinder from 'mineflayer-pathfinder';
-import { replyMessage } from '../../common/index.js';
-import { bot, botAction, botData, createAction, endAction, endAllActions } from '../../bot/index.js';
-import { entitiesLocale, repliesLocale } from '../index.js';
+import { getPlayer, replyMessage } from '../common/index.js';
+import { bot, botAction, botData, createAction, endAction, endAllActions } from '../bot/index.js';
+import { entitiesLocale, repliesLocale } from '../locale/index.js';
 const { Movements, goals } = mineflayerPathfinder;
 const { GoalFollow } = goals;
 
 export const followPlayer = async (playerName: string, isNew = true) => {
-  const player = bot.players[playerName];
+  const player = getPlayer(playerName);
 
   if (!player?.entity) {
     return false;
@@ -21,7 +21,7 @@ export const followPlayer = async (playerName: string, isNew = true) => {
 
   bot.pathfinder.setMovements(movements);
 
-  const goal = new GoalFollow(player.entity, 2);
+  const goal = new GoalFollow(player?.entity, 2);
   bot.pathfinder.setGoal(goal, true);
 
   return true;
