@@ -1,4 +1,5 @@
 import { lang } from '../../config.js';
+import { getRandomMess } from './assets/index.js';
 
 const replies = {
   ru: {
@@ -9,7 +10,7 @@ const replies = {
     continueFollowError: (player: string) => `Я не смог продолжить следовать за ${player}`,
     newSethome: () => 'Я запомнил новую точку дома!',
     badCommand: () => 'Я не знаю такой команды',
-    listening: () => 'Слушаю',
+    listening: () => getRandomMess(['Слушаю', 'Да да', 'Я тут!', 'Это я', 'Готов помочь!']),
     outFood: () => 'У меня закончилась еда!',
     nullGoArgs: () => 'Укажи куда идти! Могу на точку дома, к игроку или на координаты x y z',
     farPlayer: () => 'Ты слишком далеко, я тебя не вижу, напиши координаты в формате x y z',
@@ -23,6 +24,7 @@ const replies = {
     haveOnlyHp: (count: number) => `У меня осталось ${count} хп`,
     alreadyDo: () => 'Я уже делаю это!',
     dontWriteMyName: () => 'Ты указал моё имя!',
+    notFoundPlayer: () => 'Я не вижу игрока',
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
@@ -32,7 +34,7 @@ const replies = {
     continueFollowError: (player: string) => `I couldn't continue to follow ${player}`,
     newSethome: () => "I've memorized the new house point!",
     badCommand: () => "I don't know this command",
-    listening: () => "I'm listening",
+    listening: () => getRandomMess(["I'm listening", "I'm here!", "I'm ready to help!"]),
     outFood: () => "I'm out of food!",
     nullGoArgs: () => 'Point where to go! I can go to a house point, to a player, or to x y z coordinates',
     farPlayer: () => "You're too far away, I can't see you, write the coordinates in x y z format",
@@ -46,6 +48,7 @@ const replies = {
     haveOnlyHp: (count: number) => `I have ${count} hp left`,
     alreadyDo: () => "I'm already doing it!",
     dontWriteMyName: () => 'You wrote my name!',
+    notFoundPlayer: () => "I don't see the player",
   },
 };
 

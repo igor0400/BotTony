@@ -12,7 +12,7 @@ export const takeMainItems = () => {
 export const checkStopCollectingFood = () => {
   let isStopCollecting = false;
 
-  for (const foodItem of collectingFood) {
+  for (let foodItem of collectingFood) {
     const invItem = bot.inventory.items().find((item) => item.name.includes(foodItem));
 
     if (invItem?.count >= 20) {

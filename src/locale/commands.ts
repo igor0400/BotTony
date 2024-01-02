@@ -31,16 +31,23 @@ const commands = {
       replaceArgs: ['to'],
     },
     unfollow: {
-      titles: ['unfollow'],
+      titles: ['unfollow', 'stop follow'],
+    },
+    fight: {
+      titles: ['fight', 'kill'],
+      replaceArgs: ['with'],
+    },
+    stopfight: {
+      titles: ['stop fight'],
     },
   },
   ru: {
     sethome: {
-      titles: ['новыйдом', 'запомнидом', 'поставьдом', 'установидом'],
+      titles: ['новый дом', 'запомни дом', 'поставь дом', 'установи дом'],
       replaceArgs: ['у', 'там', 'где', 'около', 'перед'],
     },
     go: {
-      titles: ['иди', 'идти'],
+      titles: ['иди', 'идти', 'метнись'],
       replaceArgs: ['к', 'ко', 'на'],
     },
     follow: {
@@ -48,7 +55,14 @@ const commands = {
       replaceArgs: ['за'],
     },
     unfollow: {
-      titles: ['неследуй'],
+      titles: ['не следуй', 'хватит следовать', 'закончи следовать'],
+    },
+    fight: {
+      titles: ['убей', 'замочи', 'напади'],
+      replaceArgs: ['на'],
+    },
+    stopfight: {
+      titles: ['не убивай', 'хватит убивать', 'пощади'],
     },
   },
 };

@@ -28,7 +28,7 @@ export const followPlayer = async (playerName: string, isNew = true) => {
 };
 
 export const followPlayerChat = async (args: string[], username: string) => {
-  const player = args[0]?.replaceAll(RegExp(`(${entitiesLocale.me.join('|')})`, 'gi'), username) ?? username;
+  const player = args[0]?.replaceAll(new RegExp(`(${entitiesLocale.me.join('|')})`, 'gi'), username) ?? username;
   const { startFollow, startFollowError, alreadyDo, dontWriteMyName } = repliesLocale;
 
   if (player === botData.botName) {

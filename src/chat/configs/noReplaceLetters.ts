@@ -1,1 +1,1 @@
-export const noReplaceLetters = ['_'];
+export const noReplaceLetters = ['_', '-'];

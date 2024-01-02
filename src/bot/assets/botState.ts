@@ -12,7 +12,7 @@ export const botData: BotModel = {
 };
 
 export const changeBotData = (opts: object) => {
-  for (const value in opts) {
+  for (let value in opts) {
     if (value === 'homeCords') {
       if (typeof opts[value] === 'string') {
         botData[value] = parseCords(opts[value]);
@@ -29,11 +29,11 @@ export const botAction: ActionCreationArgs = {
 
 export const changeBotAction = (opts?: object) => {
   if (opts) {
-    for (const value in opts) {
+    for (let value in opts) {
       botAction[value] = opts[value];
     }
   } else {
-    for (const value in botAction) {
+    for (let value in botAction) {
       botAction[value] = null;
     }
   }
