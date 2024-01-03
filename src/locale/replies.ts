@@ -25,6 +25,11 @@ const replies = {
     alreadyDo: () => 'Я уже делаю это!',
     dontWriteMyName: () => 'Ты указал моё имя!',
     notFoundPlayer: () => 'Я не вижу игрока',
+    startKill: () => 'Тебе хана!',
+    dontKill: () => 'Ладно, живи',
+    stop: () => 'Стою',
+    continueFight: (player: string) => `Это не конец, ${player}!`,
+    continueFightError: (player: string) => `Я не смогу одолеть ${player}`,
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
@@ -49,6 +54,11 @@ const replies = {
     alreadyDo: () => "I'm already doing it!",
     dontWriteMyName: () => 'You wrote my name!',
     notFoundPlayer: () => "I don't see the player",
+    startKill: () => "You're screwed!",
+    dontKill: () => 'All right, live',
+    stop: () => "I'm standing",
+    continueFight: (player: string) => `It's not the end, ${player}!`,
+    continueFightError: (player: string) => `I can't beat ${player}`,
   },
 };
 

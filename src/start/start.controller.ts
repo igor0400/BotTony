@@ -1,5 +1,5 @@
 import { bot } from '../bot/index.js';
-import { onInit } from './start.service.js';
+import { onInit, onRespawn } from './start.service.js';
 
 bot.once('spawn', onInit);
 
@@ -7,3 +7,5 @@ bot.once('spawn', onInit);
 bot.once('resourcePack', () => {
   bot.acceptResourcePack();
 });
+
+bot.on('respawn', onRespawn);

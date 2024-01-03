@@ -2,6 +2,7 @@ import { CordsType, getPlayer, replyMessage } from '../common/index.js';
 import { updateBotHomeCords } from './database/index.js';
 import { bot } from './init.js';
 import { isEntityWord, repliesLocale } from '../locale/index.js';
+import { endAllActions } from './index.js';
 
 export const setHomePos = async (position: CordsType) => {
   let homePos: CordsType = position;
@@ -56,4 +57,17 @@ export const getInventoryItem = (itemName: string) => {
 export const takeInventoryItem = (itemName: string, hand: 'hand' | 'off-hand' = 'hand') => {
   const item = getInventoryItem(itemName);
   if (item) bot.equip(item, hand);
+};
+
+export const stopBot = async () => {
+  bot.pathfinder.stop();
+  bot.pvp.stop();
+  await endAllActions();
+};
+
+export const stopBotChat = async () => {
+  const { stop } = repliesLocale;
+
+  replyMessage(stop());
+  await stopBot();
 };

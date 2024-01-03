@@ -1,1 +1,1 @@
-export { mcData } from './start.service.js';
+export * from './start.service.js';

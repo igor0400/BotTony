@@ -1,5 +1,5 @@
 import { commandMiddleware } from '../../common/index.js';
-import { setHomePosChat } from '../../bot/index.js';
+import { setHomePosChat, stopBotChat } from '../../bot/index.js';
 import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../move/index.js';
 import { commandsLocale } from '../../locale/index.js';
 import { fightPlayerChat, stopFightPlayerChat } from '../../fight/index.js';
@@ -29,6 +29,10 @@ export const commands = {
     stopfight: {
       ...commandsLocale.stopfight,
       action: (args: string[], username: string) => commandMiddleware(stopFightPlayerChat, args, username),
+    },
+    stop: {
+      ...commandsLocale.stop,
+      action: (args: string[], username: string) => commandMiddleware(stopBotChat, args, username),
     },
   },
   public: {},

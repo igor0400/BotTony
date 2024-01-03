@@ -40,6 +40,9 @@ const commands = {
     stopfight: {
       titles: ['stop fight'],
     },
+    stop: {
+      titles: ['stop', 'halt', 'enough'],
+    },
   },
   ru: {
     sethome: {
@@ -58,11 +61,14 @@ const commands = {
       titles: ['не следуй', 'хватит следовать', 'закончи следовать'],
     },
     fight: {
-      titles: ['убей', 'замочи', 'напади'],
+      titles: ['убей', 'замочи', 'напади', 'одолей', 'кильни'],
       replaceArgs: ['на'],
     },
     stopfight: {
       titles: ['не убивай', 'хватит убивать', 'пощади'],
+    },
+    stop: {
+      titles: ['стой', 'стоп', 'остановись', 'хватит', 'успакойся', 'не надо'],
     },
   },
 };
