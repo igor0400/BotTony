@@ -12,6 +12,10 @@ export const startGuarding = async (initTarget: string, username: string, isNew 
     name?: string;
   };
 
+  if (player && !player?.entity) {
+    return false;
+  }
+
   if (player?.entity) {
     result = {
       type: 'player',

@@ -13,10 +13,12 @@ bot.on('physicsTick', async () => {
   }
 });
 
-bot.on('respawn', async () => {
-  const isContinue = await continueAction(true);
+bot.on('respawn', () => {
+  setTimeout(async () => {
+    const isContinue = await continueAction(true);
 
-  if (!isContinue) {
-    moveToPos(botData?.homeCords);
-  }
+    if (!isContinue) {
+      moveToPos(botData?.homeCords);
+    }
+  }, 2000);
 });
