@@ -15,8 +15,13 @@ export const sayByePlayer = (playerName: string) => {
 };
 
 export const whereChat = (args: string[], username: string) => {
+  const { notFoundPlayer, playerCords, myCords, whereBadArgs } = repliesLocale;
+
+  if (!args[0]) {
+    return replyMessage(whereBadArgs());
+  }
+
   let target = changeMeOnText(args[0], username);
-  const { notFoundPlayer, playerCords, myCords } = repliesLocale;
 
   if (isEntityWord('you', target)) {
     replyMessage(myCords(bot?.entity?.position?.floored()));
