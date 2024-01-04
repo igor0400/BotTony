@@ -30,6 +30,7 @@ const replies = {
     stop: () => 'Стою',
     continueFight: (player: string) => `Это не конец, ${player}!`,
     continueFightError: (player: string) => `Я не смогу одолеть ${player}`,
+    killedPlayer: (player: string) => `${player} повержен`,
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
@@ -59,6 +60,7 @@ const replies = {
     stop: () => "I'm standing",
     continueFight: (player: string) => `It's not the end, ${player}!`,
     continueFightError: (player: string) => `I can't beat ${player}`,
+    killedPlayer: (player: string) => `${player} is defeated`,
   },
 };
 

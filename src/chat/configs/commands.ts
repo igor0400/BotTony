@@ -3,8 +3,18 @@ import { setHomePosChat, stopBotChat } from '../../bot/index.js';
 import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../move/index.js';
 import { commandsLocale } from '../../locale/index.js';
 import { fightPlayerChat, stopFightPlayerChat } from '../../fight/index.js';
+import { CommandType } from '../types/commands.js';
 
-export const commands = {
+interface CommandsType {
+  private: {
+    [key: string]: CommandType;
+  };
+  public: {
+    [key: string]: CommandType;
+  };
+}
+
+export const commands: CommandsType = {
   private: {
     sethome: {
       ...commandsLocale.sethome,

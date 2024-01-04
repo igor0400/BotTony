@@ -1,8 +1,15 @@
 import { bot } from '../../bot/index.js';
 
 export const getPlayer = (playerName: string) => {
-  if (playerName) {
-    const player = bot?.players[playerName];
-    return player;
+  let player;
+
+  if (playerName && bot?.players) {
+    for (let serPayerName in bot.players) {
+      if (serPayerName.toLowerCase() === playerName.toLowerCase()) {
+        player = bot?.players[serPayerName];
+      }
+    }
   }
+
+  return player;
 };

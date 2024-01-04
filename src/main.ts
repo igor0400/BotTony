@@ -8,6 +8,8 @@ import './bot/bot.controller.js';
 import './collect/collect.controller.js';
 import './health/health.controller.js';
 import './chat/chat.controller.js';
+import './attack/attak.controller.js';
+import './fight/fight.controller.js';
 import './other/other.controller.js';
 
 console.log('\x1b[32mBot successfully started!\x1b[0m');
