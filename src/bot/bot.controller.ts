@@ -4,13 +4,17 @@ import { bot } from './init.js';
 import { moveToPos } from '../move/index.js';
 
 bot.on('physicsTick', async () => {
-  if (!bot.pvp.target && !bot.pathfinder.isMoving() && (!botAction?.type || botAction?.type === 'follow')) {
+  if (
+    !bot.pvp.target &&
+    !bot.pathfinder.isMoving() &&
+    (!botAction?.type || botAction?.type === 'follow' || botAction?.type === 'guard')
+  ) {
     await lookForPlayer();
   }
 });
 
 bot.on('respawn', async () => {
-  const isContinue = await continueAction();
+  const isContinue = await continueAction(true);
 
   if (!isContinue) {
     moveToPos(botData?.homeCords);

@@ -1,7 +1,7 @@
 import mineflayerPathfinder from 'mineflayer-pathfinder';
 import { getPlayer, replyMessage } from '../common/index.js';
 import { bot, botAction, botData, createAction, endAction, endAllActions } from '../bot/index.js';
-import { entitiesLocale, repliesLocale } from '../locale/index.js';
+import { changeMeOnText, repliesLocale } from '../locale/index.js';
 const { Movements, goals } = mineflayerPathfinder;
 const { GoalFollow } = goals;
 
@@ -28,7 +28,7 @@ export const followPlayer = async (playerName: string, isNew = true) => {
 };
 
 export const followPlayerChat = async (args: string[], username: string) => {
-  const player = args[0]?.replaceAll(new RegExp(`(${entitiesLocale.me.join('|')})`, 'gi'), username) ?? username;
+  const player = changeMeOnText(args[0], username) ?? username;
   const { startFollow, startFollowError, alreadyDo, dontWriteMyName } = repliesLocale;
 
   if (player === botData.botName) {

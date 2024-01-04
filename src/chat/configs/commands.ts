@@ -3,7 +3,8 @@ import { setHomePosChat, stopBotChat } from '../../bot/index.js';
 import { followPlayerChat, moveToPosChat, unfollowPlayerChat } from '../../move/index.js';
 import { commandsLocale } from '../../locale/index.js';
 import { fightPlayerChat, stopFightPlayerChat } from '../../fight/index.js';
-import { CommandType } from '../types/commands.js';
+import { CommandType } from '../types/index.js';
+import { endGuardingChat, startGuardingChat } from '../../guard/index.js';
 
 interface CommandsType {
   private: {
@@ -40,6 +41,15 @@ export const commands: CommandsType = {
       ...commandsLocale.stopfight,
       action: (args: string[], username: string) => commandMiddleware(stopFightPlayerChat, args, username),
     },
+    guard: {
+      ...commandsLocale.guard,
+      action: (args: string[], username: string) => commandMiddleware(startGuardingChat, args, username),
+    },
+    unguard: {
+      ...commandsLocale.unguard,
+      action: (args: string[], username: string) => commandMiddleware(endGuardingChat, args, username),
+    },
+
     stop: {
       ...commandsLocale.stop,
       action: (args: string[], username: string) => commandMiddleware(stopBotChat, args, username),

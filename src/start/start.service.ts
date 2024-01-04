@@ -17,7 +17,7 @@ export const onInit = async () => {
     await setHomePos(bot?.entity?.position?.floored());
   }
 
-  await continueAction();
+  await continueAction(true);
 };
 
 export const onRespawn = () => {

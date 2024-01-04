@@ -6,7 +6,7 @@ import { ActionCreationArgs, ActionModel } from '../types/index.js';
 export const createAction = async ({ botId = botData?.id, type, extraData }: ActionCreationArgs) => {
   const id = getId();
   const data = await customRequest(
-    `INSERT INTO actions (id, botId, type, extraData) VALUES ("${id}", "${botId}", "${type}", "${extraData}")`,
+    `INSERT INTO actions (id, botId, type, extraData) VALUES ("${id}", "${botId}", "${type}", '${extraData}')`,
   );
 
   changeBotAction({ botId, type, extraData });
