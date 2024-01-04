@@ -1,3 +1,4 @@
+import { CordsType } from '../common/index.js';
 import { lang } from '../../config.js';
 import { getRandomMess } from './assets/index.js';
 
@@ -40,6 +41,8 @@ const replies = {
     continueGuardPlayerError: (player: string) => `Не могу продолжить охранять ${player}`,
     continueGuardHome: () => 'Продолжаю охранять точку дома',
     continueGuardHomeError: () => 'Не могу продолжить охранять точку дома',
+    myCords: (cords: CordsType) => `Мои координаты: ${cords.x} ${cords.y} ${cords.z}`,
+    playerCords: (playerName: string, cords: CordsType) => `Координаты ${playerName}: ${cords.x} ${cords.y} ${cords.z}`,
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
@@ -79,6 +82,9 @@ const replies = {
     continueGuardPlayerError: (player: string) => `I can't keep guarding ${player}`,
     continueGuardHome: () => 'Continuing to guard the point of the house',
     continueGuardHomeError: () => "Can't continue to guard the point of the house",
+    myCords: (cords: CordsType) => `My coordinates: ${cords.x} ${cords.y} ${cords.z}`,
+    playerCords: (playerName: string, cords: CordsType) =>
+      `${playerName}'s coordinates: ${cords.x} ${cords.y} ${cords.z}`,
   },
 };
 

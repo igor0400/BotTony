@@ -5,6 +5,7 @@ import { commandsLocale } from '../../locale/index.js';
 import { fightPlayerChat, stopFightPlayerChat } from '../../fight/index.js';
 import { CommandType } from '../types/index.js';
 import { endGuardingChat, startGuardingChat } from '../../guard/index.js';
+import { whereChat } from '../../other/index.js';
 
 interface CommandsType {
   private: {
@@ -48,6 +49,10 @@ export const commands: CommandsType = {
     unguard: {
       ...commandsLocale.unguard,
       action: (args: string[], username: string) => commandMiddleware(endGuardingChat, args, username),
+    },
+    where: {
+      ...commandsLocale.where,
+      action: (args: string[], username: string) => commandMiddleware(whereChat, args, username),
     },
 
     stop: {

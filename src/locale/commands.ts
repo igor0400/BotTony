@@ -40,6 +40,16 @@ const commands = {
     stopfight: {
       titles: ['stop fight'],
     },
+    guard: {
+      titles: ['guard', 'guarding'],
+    },
+    unguard: {
+      titles: ['unguard', 'unguarding'],
+    },
+    where: {
+      titles: ['where', 'coordinates', 'cords'],
+    },
+
     stop: {
       titles: ['stop', 'halt', 'enough'],
     },
@@ -69,7 +79,6 @@ const commands = {
     },
     guard: {
       titles: ['охраняй', 'поохраняй', 'посторожи', 'сторожи', 'защищай', 'позащищай', 'оберегай', 'пооберегай'],
-      replaceArgs: [],
     },
     unguard: {
       titles: [
@@ -82,6 +91,9 @@ const commands = {
         'не оберегай',
         'хватит оберегать',
       ],
+    },
+    where: {
+      titles: ['где', 'корды', 'координаты'],
     },
 
     stop: {
