@@ -44,6 +44,7 @@ const replies = {
     myCords: (cords: CordsType) => `Мои координаты: ${cords.x} ${cords.y} ${cords.z}`,
     playerCords: (playerName: string, cords: CordsType) => `Координаты ${playerName}: ${cords.x} ${cords.y} ${cords.z}`,
     whereBadArgs: () => 'Укажи ник игрока',
+    lessItems: (count: number | string) => `У меня только ${count}`,
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
@@ -87,6 +88,7 @@ const replies = {
     playerCords: (playerName: string, cords: CordsType) =>
       `${playerName}'s coordinates: ${cords.x} ${cords.y} ${cords.z}`,
     whereBadArgs: () => "Enter the player's nickname",
+    lessItems: (count: number | string) => `I have only ${count}`,
   },
 };
 

@@ -6,6 +6,7 @@ import { fightPlayerChat, stopFightPlayerChat } from '../../fight/index.js';
 import { CommandType } from '../types/index.js';
 import { endGuardingChat, startGuardingChat } from '../../guard/index.js';
 import { whereChat } from '../../other/index.js';
+import { comeAndDropItemsChat } from '../../collect/index.js';
 
 interface CommandsType {
   private: {
@@ -20,44 +21,48 @@ export const commands: CommandsType = {
   private: {
     sethome: {
       ...commandsLocale.sethome,
-      action: (args: string[], username: string) => commandMiddleware(setHomePosChat, args, username),
+      action: (...args) => commandMiddleware(setHomePosChat, ...args),
     },
     go: {
       ...commandsLocale.go,
-      action: (args: string[], username: string) => commandMiddleware(moveToPosChat, args, username),
+      action: (...args) => commandMiddleware(moveToPosChat, ...args),
     },
     follow: {
       ...commandsLocale.follow,
-      action: (args: string[], username: string) => commandMiddleware(followPlayerChat, args, username),
+      action: (...args) => commandMiddleware(followPlayerChat, ...args),
     },
     unfollow: {
       ...commandsLocale.unfollow,
-      action: (args: string[], username: string) => commandMiddleware(unfollowPlayerChat, args, username),
+      action: (...args) => commandMiddleware(unfollowPlayerChat, ...args),
     },
     fight: {
       ...commandsLocale.fight,
-      action: (args: string[], username: string) => commandMiddleware(fightPlayerChat, args, username),
+      action: (...args) => commandMiddleware(fightPlayerChat, ...args),
     },
     stopfight: {
       ...commandsLocale.stopfight,
-      action: (args: string[], username: string) => commandMiddleware(stopFightPlayerChat, args, username),
+      action: (...args) => commandMiddleware(stopFightPlayerChat, ...args),
     },
     guard: {
       ...commandsLocale.guard,
-      action: (args: string[], username: string) => commandMiddleware(startGuardingChat, args, username),
+      action: (...args) => commandMiddleware(startGuardingChat, ...args),
     },
     unguard: {
       ...commandsLocale.unguard,
-      action: (args: string[], username: string) => commandMiddleware(endGuardingChat, args, username),
+      action: (...args) => commandMiddleware(endGuardingChat, ...args),
     },
     where: {
       ...commandsLocale.where,
-      action: (args: string[], username: string) => commandMiddleware(whereChat, args, username),
+      action: (...args) => commandMiddleware(whereChat, ...args),
+    },
+    geave: {
+      ...commandsLocale.geave,
+      action: (...args) => commandMiddleware(comeAndDropItemsChat, ...args),
     },
 
     stop: {
       ...commandsLocale.stop,
-      action: (args: string[], username: string) => commandMiddleware(stopBotChat, args, username),
+      action: (...args) => commandMiddleware(stopBotChat, ...args),
     },
   },
   public: {},

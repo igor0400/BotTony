@@ -1,4 +1,4 @@
-import { lookForPlayer } from './bot.service.js';
+import { lookToNearPlayer } from './bot.service.js';
 import { botAction, botData, continueAction } from './assets/index.js';
 import { bot } from './init.js';
 import { moveToPos } from '../move/index.js';
@@ -9,7 +9,7 @@ bot.on('physicsTick', async () => {
     !bot.pathfinder.isMoving() &&
     (!botAction?.type || botAction?.type === 'follow' || botAction?.type === 'guard')
   ) {
-    await lookForPlayer();
+    await lookToNearPlayer();
   }
 });
 

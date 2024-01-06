@@ -49,6 +49,9 @@ const commands = {
     where: {
       titles: ['where', 'coordinates', 'cords'],
     },
+    geave: {
+      titles: ['geave', 'drop'],
+    },
 
     stop: {
       titles: ['stop', 'halt', 'enough'],
@@ -94,6 +97,9 @@ const commands = {
     },
     where: {
       titles: ['где', 'корды', 'координаты'],
+    },
+    geave: {
+      titles: ['сбрось', 'дай', 'принеси', 'отдай'],
     },
 
     stop: {

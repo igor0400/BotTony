@@ -41,7 +41,7 @@ export const setHomePosChat = async (args: string[], username: string) => {
   replyMessage(newSethome());
 };
 
-export const lookForPlayer = async () => {
+export const lookToNearPlayer = async () => {
   const filterEntity = (entity) => entity.type === 'player' && entity.position.distanceTo(bot.entity.position) < 16;
   const entity = bot.nearestEntity(filterEntity);
   if (entity) {
