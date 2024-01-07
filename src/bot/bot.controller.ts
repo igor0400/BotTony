@@ -4,11 +4,9 @@ import { bot } from './init.js';
 import { moveToPos } from '../move/index.js';
 
 bot.on('physicsTick', async () => {
-  if (
-    !bot.pvp.target &&
-    !bot.pathfinder.isMoving() &&
-    (!botAction?.type || botAction?.type === 'follow' || botAction?.type === 'guard')
-  ) {
+  const validActions = ['follow', 'guard'];
+
+  if (!botAction?.type || validActions.includes(botAction?.type)) {
     await lookToNearPlayer();
   }
 });

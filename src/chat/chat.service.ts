@@ -37,7 +37,7 @@ async function commandHandler(
           .replaceAll(new RegExp(title, 'gi'), '')
           ?.trim()
           ?.split(' ')
-          ?.filter((i) => !commandData?.replaceArgs?.includes(i));
+          ?.filter((i) => !commandData?.replaceArgs?.includes(i) && i);
 
         await commandData.action(clearArgs, username);
         return true;

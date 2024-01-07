@@ -1,5 +1,5 @@
 import { changeMeOnText, isEntityWord, repliesLocale } from '../locale/index.js';
-import { getPlayer, replyMessage } from '../common/index.js';
+import { getPlayerWithErrMess, replyMessage } from '../common/index.js';
 import { bot } from '../bot/index.js';
 
 export const sayHelloPlayer = (playerName: string) => {
@@ -15,7 +15,7 @@ export const sayByePlayer = (playerName: string) => {
 };
 
 export const whereChat = (args: string[], username: string) => {
-  const { notFoundPlayer, playerCords, myCords, whereBadArgs } = repliesLocale;
+  const { playerCords, myCords, whereBadArgs } = repliesLocale;
 
   if (!args[0]) {
     return replyMessage(whereBadArgs());
@@ -28,13 +28,9 @@ export const whereChat = (args: string[], username: string) => {
     return true;
   }
 
-  const player = getPlayer(target);
+  const player = getPlayerWithErrMess(target);
+  if (!player) return false;
 
-  if (player?.entity) {
-    replyMessage(playerCords(player.username, player?.entity?.position?.floored()));
-    return true;
-  } else {
-    replyMessage(notFoundPlayer());
-    return false;
-  }
+  replyMessage(playerCords(player.username, player?.entity?.position?.floored()));
+  return true;
 };

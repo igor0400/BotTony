@@ -1,7 +1,7 @@
 import { CordsType, getPlayer, replyMessage } from '../common/index.js';
 import { updateBotHomeCords } from './database/index.js';
 import { bot } from './init.js';
-import { isEntityWord, repliesLocale } from '../locale/index.js';
+import { isEntityWord, itemsLocale, repliesLocale } from '../locale/index.js';
 import { endAllActions } from './index.js';
 
 export const setHomePos = async (position: CordsType) => {
@@ -41,16 +41,31 @@ export const setHomePosChat = async (args: string[], username: string) => {
   replyMessage(newSethome());
 };
 
-export const lookToNearPlayer = async () => {
-  const filterEntity = (entity) => entity.type === 'player' && entity.position.distanceTo(bot.entity.position) < 16;
-  const entity = bot.nearestEntity(filterEntity);
+export const lookToEntity = async (entity: any, force: boolean = false, y: number = entity?.height) => {
   if (entity) {
-    bot.lookAt(entity.position.offset(0, entity.height, 0));
+    await bot.lookAt(entity?.position?.offset(0, y, 0), force);
   }
 };
 
-export const getInventoryItem = (itemName: string) => {
-  const item = bot.inventory.items().find((item) => item.name.includes(itemName));
+export const lookToNearPlayer = async () => {
+  const filterEntity = (entity) => entity.type === 'player' && entity.position.distanceTo(bot.entity.position) < 16;
+  const entity = bot.nearestEntity(filterEntity);
+  await lookToEntity(entity);
+};
+
+export const getInventoryItem = (itemChatName: string) => {
+  let itemName = itemChatName;
+
+  for (let itemConfName in itemsLocale) {
+    if (itemsLocale[itemConfName].includes(itemChatName)) {
+      itemName = itemConfName;
+    }
+  }
+
+  const item = bot.inventory
+    .items()
+    .find((item) => item.name.includes(itemName) || item.displayName.toLowerCase().includes(itemName));
+
   return item;
 };
 

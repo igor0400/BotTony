@@ -1,13 +1,37 @@
 import mineflayerPathfinder from 'mineflayer-pathfinder';
 import { CordsType, getPlayer, replyMessage } from '../common/index.js';
-import { bot, botData, endAllActions } from '../bot/index.js';
+import { bot, botData, createAction, endAction, endAllActions } from '../bot/index.js';
 import { ownerName } from '../../config.js';
 import { isEntityWord, repliesLocale } from '../locale/index.js';
 const { Movements, goals } = mineflayerPathfinder;
 
+export let isGoalReached = false;
+
+export const setIsGoalReached = (value: boolean) => {
+  isGoalReached = value;
+};
+
 export const moveToPos = (position: CordsType) => {
-  bot.pathfinder.setMovements(new Movements(bot));
+  const defaultMove = new Movements(bot);
+  defaultMove.canOpenDoors = true;
+
+  isGoalReached = false;
+
+  bot.pathfinder.setMovements(defaultMove);
   bot.pathfinder.setGoal(new goals.GoalBlock(position.x, position.y, position.z));
+};
+
+export const moveToPosPromise = (position: CordsType) => {
+  moveToPos(position);
+
+  return new Promise((resolve) => {
+    const interval = setInterval(() => {
+      if (isGoalReached) {
+        clearInterval(interval);
+        resolve(true);
+      }
+    }, 100);
+  });
 };
 
 export const moveToPosChat = async (args: string[], username: string = ownerName) => {
@@ -15,7 +39,8 @@ export const moveToPosChat = async (args: string[], username: string = ownerName
   const point = changedArgs[0];
   const player = getPlayer(point);
 
-  const { nullGoArgs, farPlayer, nullCords, badCords, alreadyHere, alreadyRun, dontWriteMyName } = repliesLocale;
+  const { nullGoArgs, farPlayer, nullCords, badCords, alreadyHere, alreadyRun, dontWriteMyName, iInPosition } =
+    repliesLocale;
 
   if (!point) {
     return replyMessage(nullGoArgs());
@@ -53,6 +78,12 @@ export const moveToPosChat = async (args: string[], username: string = ownerName
   }
 
   await endAllActions();
+
+  await createAction({ type: 'go', extraData: JSON.stringify(cords) });
+
   replyMessage(alreadyRun());
-  return moveToPos(cords);
+  await moveToPosPromise(cords);
+
+  replyMessage(iInPosition());
+  await endAction('go');
 };

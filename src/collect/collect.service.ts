@@ -1,95 +1,12 @@
-import { getPlayer, replyMessage } from '../common/index.js';
-import { bot, getInventoryItem, takeInventoryItem } from '../bot/index.js';
+import { bot, takeInventoryItem } from '../bot/index.js';
 import { collectingFood } from './configs/index.js';
-import { changeMeOnText, repliesLocale } from '../locale/index.js';
 
 export const takeMainItems = () => {
   // взять мечь
   setTimeout(() => takeInventoryItem('sword'), 150);
-
   // взять щит
   setTimeout(() => takeInventoryItem('shield', 'off-hand'), 250);
 };
-
-// подходить и выбрасывать предметы челу
-// сделать отдельно функцию подходить и выбратывать
-// и отдельно для чата
-// скидывать, и писать у меня есть только (кол-во), если не хватает ресов
-
-export const dropItems = (itemName: string, count?: number) => {
-  const { lessItems } = repliesLocale;
-
-  const item = getInventoryItem(itemName);
-  console.log('item:', item);
-
-  if (!item) {
-    return replyMessage('У МЕНЯ НЕТ ЭТОГО');
-  }
-
-  if (count !== undefined && item?.count < count) {
-    replyMessage(lessItems(item?.count));
-  }
-
-  if (count) {
-    bot.toss(item.type, item.metadata, count);
-  }
-};
-
-export const comeAndDropItems = (playerName: string, itemName: string, count?: number) => {
-  dropItems('cooked_beef');
-};
-
-export const comeAndDropItemsChat = (args: string[], username: string) => {
-  const data = getCADIDataByArgs(args, username);
-
-  if (!data) return;
-
-  console.log('data:', data);
-
-  const { playerName, itemName, count } = data;
-
-  comeAndDropItems(playerName, itemName, count);
-};
-
-function getCADIDataByArgs(args: string[], username: string) {
-  let playerName: string;
-  let itemName: string;
-  let count: number;
-
-  let secondArgsStartNum = 0;
-
-  if (args.length < 2) {
-    replyMessage('ПЕРЕДАТЬ ПРАВИЛЬНЫЕ АРГУМЕНТЫ');
-    return false;
-  }
-
-  if (args.length >= 3) {
-    const firstPlayerName = changeMeOnText(args[0], username);
-    const isFirstPlayer = getPlayer(firstPlayerName);
-
-    if (isFirstPlayer) {
-      playerName = firstPlayerName;
-      secondArgsStartNum = 1;
-    } else {
-      const secondPlayerName = changeMeOnText(args[2], username);
-      const isSecondPlayer = getPlayer(secondPlayerName);
-
-      if (isSecondPlayer) {
-        playerName = secondPlayerName;
-      }
-    }
-  }
-
-  if (+args[secondArgsStartNum]) {
-    count = +args[secondArgsStartNum];
-    itemName = args[secondArgsStartNum + 1];
-  } else {
-    count = +args[secondArgsStartNum + 1];
-    itemName = args[secondArgsStartNum];
-  }
-
-  return { playerName, itemName, count };
-}
 
 // подходить и складывать ресы в сундук, если его там нет, ставить, если нет ресов на сундук сказать
 
