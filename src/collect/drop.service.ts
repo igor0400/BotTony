@@ -4,6 +4,7 @@ import { changeMeOnText, repliesLocale } from '../locale/index.js';
 import { moveToPosPromise } from '../move/index.js';
 
 // распозновать itemName с пробелом
+// сделать itemsLocale
 
 export const dropItems = async (itemName: string, count?: number, entity?: any) => {
   if (entity) {
@@ -103,6 +104,10 @@ function getCADIDataByArgs(args: string[], username: string) {
       }
     }
   }
+
+  // сделать через remArg
+  // сначала чекать count а потом itemName
+  // поменять проверки на argsLen
 
   if (+filteredArgs[0]) {
     count = +filteredArgs[0];

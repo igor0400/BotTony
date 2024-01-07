@@ -1,6 +1,6 @@
 import { getPlayer, replyMessage } from '../common/index.js';
 import { attakPlayer, stopAttack } from '../attack/index.js';
-import { changeMeOnText, entitiesLocale, repliesLocale } from '../locale/index.js';
+import { changeMeOnText, repliesLocale } from '../locale/index.js';
 import { botAction, createAction, endAction } from '../bot/index.js';
 
 export const fightPlayer = async (playerName: string, isNew = true) => {
