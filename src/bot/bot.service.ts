@@ -54,26 +54,56 @@ export const lookToNearPlayer = async () => {
 };
 
 export const getInventoryItem = (itemChatName: string) => {
-  let itemName = itemChatName;
+  let itemNames = getItemNames(itemChatName);
+
+  if (itemNames.length > 1) {
+    itemNames = getItemNames(itemChatName, true);
+  }
+  if (itemNames.length === 0) {
+    itemNames = getItemNames(itemChatName);
+  }
+
+  const item = bot.inventory.items().find((item) => {
+    let result = false;
+
+    for (let itemName of itemNames) {
+      if (item.name.includes(itemName) || item.displayName.toLowerCase().includes(itemName)) {
+        result = true;
+      }
+    }
+
+    return result;
+  });
+
+  return item;
+};
+
+function getItemNames(itemChatName: string, isStrict: boolean = false) {
+  const itemNames = [itemChatName];
 
   for (let itemConfName in itemsLocale) {
     const itemOptionNames = itemsLocale[itemConfName];
 
     for (let itemOptionName of itemOptionNames) {
-      for (let itemOptionNameArg of itemOptionName.split(' ')) {
-        if (itemOptionNameArg === itemChatName || itemOptionName === itemChatName) {
-          itemName = itemConfName;
+      if (isStrict) {
+        if (new RegExp(itemOptionName, 'gi').test(itemChatName)) {
+          itemNames.push(itemConfName);
+        }
+      } else {
+        for (let itemOptionNameArg of itemOptionName.split(' ')) {
+          if (
+            new RegExp(itemOptionNameArg, 'gi').test(itemChatName) ||
+            new RegExp(itemOptionName, 'gi').test(itemChatName)
+          ) {
+            itemNames.push(itemConfName);
+          }
         }
       }
     }
   }
 
-  const item = bot.inventory
-    .items()
-    .find((item) => item.name.includes(itemName) || item.displayName.toLowerCase().includes(itemName));
-
-  return item;
-};
+  return itemNames;
+}
 
 export const takeInventoryItem = (itemName: string, hand: 'hand' | 'off-hand' = 'hand') => {
   const item = getInventoryItem(itemName);
