@@ -57,8 +57,14 @@ export const getInventoryItem = (itemChatName: string) => {
   let itemName = itemChatName;
 
   for (let itemConfName in itemsLocale) {
-    if (itemsLocale[itemConfName].includes(itemChatName)) {
-      itemName = itemConfName;
+    const itemOptionNames = itemsLocale[itemConfName];
+
+    for (let itemOptionName of itemOptionNames) {
+      for (let itemOptionNameArg of itemOptionName.split(' ')) {
+        if (itemOptionNameArg === itemChatName || itemOptionName === itemChatName) {
+          itemName = itemConfName;
+        }
+      }
     }
   }
 

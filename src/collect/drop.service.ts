@@ -40,11 +40,13 @@ export const comeAndDropItems = async (playerName: string, itemName: string, cou
 
   const item = getInventoryItem(itemName);
 
-  const { notFoundItem } = repliesLocale;
+  const { notFoundItem, startGeave } = repliesLocale;
 
   if (!item) {
     return replyMessage(notFoundItem());
   }
+
+  replyMessage(startGeave());
 
   await createAction({
     type: 'geave',
@@ -64,10 +66,8 @@ export const comeAndDropItemsChat = async (args: string[], username: string) => 
   const data = getCADIDataByArgs(args, username);
   if (!data) return;
 
-  const { startGeave } = repliesLocale;
   const { playerName, itemName, count } = data;
 
-  replyMessage(startGeave());
   await comeAndDropItems(playerName, itemName, count);
 };
 
@@ -85,48 +85,38 @@ function getCADIDataByArgs(args: string[], username: string) {
     }
   }
 
-  const { notFoundPlayer, badComeAndGeaveArgs } = repliesLocale;
+  const { badComeAndGeaveArgs } = repliesLocale;
 
-  if (filteredArgs.length < 1) {
-    replyMessage(badComeAndGeaveArgs());
-    return false;
+  if (filteredArgs.length === 0) {
+    return replyMessage(badComeAndGeaveArgs());
   }
 
-  if (filteredArgs.length >= 2) {
-    for (let i in filteredArgs) {
-      const arg = filteredArgs[i];
-      const testPlayerName = changeMeOnText(arg, username);
-      const isPlayer = getPlayer(testPlayerName);
+  for (let arg of filteredArgs) {
+    const testPlayerName = changeMeOnText(arg, username);
+    const isPlayer = getPlayer(testPlayerName);
 
-      if (isPlayer) {
-        playerName = testPlayerName;
-        remArg(arg);
-      }
+    if (isPlayer) {
+      playerName = testPlayerName;
+      remArg(arg);
     }
-  }
-
-  // сделать через remArg
-  // сначала чекать count а потом itemName
-  // поменять проверки на argsLen
-
-  if (+filteredArgs[0]) {
-    count = +filteredArgs[0];
-    itemName = filteredArgs[1];
-  } else {
-    count = +filteredArgs[1];
-    itemName = filteredArgs[0];
   }
 
   if (!playerName) {
-    const argsLen = args.length;
+    return replyMessage(badComeAndGeaveArgs('who'));
+  }
 
-    if (argsLen === 1 || (argsLen === 2 && count)) {
-      playerName = username;
-    } else {
-      replyMessage(notFoundPlayer());
-      return false;
+  for (let arg of filteredArgs) {
+    if (+arg) {
+      count = +arg;
+      remArg(arg);
     }
   }
+
+  if (filteredArgs.length === 0) {
+    return replyMessage(badComeAndGeaveArgs('what'));
+  }
+
+  itemName = filteredArgs.join(' ');
 
   return { playerName, itemName, count };
 }

@@ -50,9 +50,14 @@ const replies = {
     continueGo: (cords: CordsType) => `Продолжаю идти на координаты: ${cords.x} ${cords.y} ${cords.z}`,
     startGeave: () => 'Уже несу!',
     continueGeave: (item: string, player: string) => `Продолжаю нести ${item} ${player}`,
-    notFoundItem: () => 'У меня нет этого',
+    notFoundItem: () => 'У меня этого нет',
     endGeave: () => getRandomMess(['Пожалуйста', 'Готово']),
-    badComeAndGeaveArgs: () => 'Я не понимаю кому и что дать',
+    badComeAndGeaveArgs: (type: 'all' | 'who' | 'what' = 'all') =>
+      type === 'who'
+        ? 'Я не понимаю кому нести'
+        : type === 'what'
+        ? 'Я не понимаю что нести'
+        : 'Я не понимаю кому и что нести',
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,

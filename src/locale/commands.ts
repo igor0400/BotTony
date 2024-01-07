@@ -100,6 +100,7 @@ const commands = {
     },
     geave: {
       titles: ['сбрось', 'дай', 'принеси', 'отдай', 'передай', 'скинь'],
+      replaceArgs: ['ка'],
     },
 
     stop: {
