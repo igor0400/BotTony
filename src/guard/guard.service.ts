@@ -4,9 +4,8 @@ import { bot, botAction, botData, createAction, endAction, endAllActions } from 
 import { getPlayer, replyMessage } from '../common/index.js';
 import { followPlayer, moveToPos } from '../move/index.js';
 
-export const startGuarding = async (initTarget: string, username: string, isNew = true) => {
-  let target = changeMeOnText(initTarget, username);
-  const player = getPlayer(target);
+export const startGuarding = async (playerName: string, isNew = true) => {
+  const player = getPlayer(playerName);
   let result: {
     type?: 'player' | 'home';
     name?: string;
@@ -19,13 +18,14 @@ export const startGuarding = async (initTarget: string, username: string, isNew 
   if (player?.entity) {
     result = {
       type: 'player',
-      name: target,
+      name: playerName,
     };
-    const isSuccess = await followPlayer(target, false);
+    const isSuccess = await followPlayer(playerName, false);
     if (!isSuccess) return false;
   } else {
     result = {
       type: 'home',
+      name: 'home',
     };
     moveToPos(botData?.homeCords);
   }
@@ -38,17 +38,18 @@ export const startGuarding = async (initTarget: string, username: string, isNew 
 };
 
 export const startGuardingChat = async (args: string[], username: string) => {
-  const initTarget = args[0];
+  const { startGuardHome, startGuardPlayer, startGuardError, playerAway } = repliesLocale;
 
-  const { startGuardHome, startGuardPlayer, startGuardError } = repliesLocale;
-
-  if (!initTarget) {
+  if (!args[0]) {
     return replyMessage(startGuardError());
   }
 
+  const playerName = changeMeOnText(args[0], username);
+  const player = getPlayer(playerName);
+
   await endAllActions();
 
-  const guardEntity = await startGuarding(initTarget, username);
+  const guardEntity = await startGuarding(playerName);
 
   if (guardEntity) {
     const { type, name } = guardEntity;
@@ -58,7 +59,11 @@ export const startGuardingChat = async (args: string[], username: string) => {
       replyMessage(startGuardHome());
     }
   } else {
-    replyMessage(startGuardError());
+    if (player && !player?.entity) {
+      replyMessage(playerAway());
+    } else {
+      replyMessage(startGuardError());
+    }
   }
 };
 

@@ -28,23 +28,28 @@ export const followPlayer = async (playerName: string, isNew = true) => {
 };
 
 export const followPlayerChat = async (args: string[], username: string) => {
-  const player = changeMeOnText(args[0], username) ?? username;
-  const { startFollow, startFollowError, alreadyDo, dontWriteMyName } = repliesLocale;
+  const playerName = changeMeOnText(args[0], username) ?? username;
+  const player = getPlayer(playerName);
+  const { startFollow, startFollowError, alreadyDo, dontWriteMyName, playerAway } = repliesLocale;
 
-  if (player === botData.botName) {
+  if (playerName === botData.botName) {
     return replyMessage(dontWriteMyName());
   }
 
-  if (botAction?.extraData === player) {
+  if (botAction?.extraData === playerName) {
     return replyMessage(alreadyDo());
   }
 
   await endAllActions();
-  const isSuccess = await followPlayer(player);
+  const isSuccess = await followPlayer(playerName);
   if (isSuccess) {
-    replyMessage(startFollow(player));
+    replyMessage(startFollow(playerName));
   } else {
-    replyMessage(startFollowError());
+    if (player && !player?.entity) {
+      replyMessage(playerAway());
+    } else {
+      replyMessage(startFollowError());
+    }
   }
 };
 

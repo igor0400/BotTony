@@ -57,8 +57,7 @@ export const continueAction = async (isStart = false) => {
 
     if (type === 'guard') {
       const { type, name } = JSON.parse(extraData);
-      const initTarget = name ? name : type;
-      const isSuccess = await startGuarding(initTarget, name ?? '', false);
+      const isSuccess = await startGuarding(name ?? '', false);
 
       if (isStart) {
         if (isSuccess) {

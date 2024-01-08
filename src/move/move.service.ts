@@ -51,7 +51,7 @@ export const moveToPosChat = async (args: string[], username: string = ownerName
   }
 
   const botCords = bot?.entity?.position?.floored();
-  let cords: CordsType = player?.entity?.position?.floored();
+  let cords: CordsType = player?.entity?.position?.offset(1, 0, 1);
 
   if (isEntityWord('home', point)) {
     cords = botData.homeCords;
