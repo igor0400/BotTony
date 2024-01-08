@@ -4,6 +4,8 @@ import { botData } from '../assets/index.js';
 import { ActionCreationArgs, ActionModel } from '../types/index.js';
 
 export const createAction = async ({ botId = botData?.id, type, extraData }: ActionCreationArgs) => {
+  await incActionsExecNums();
+
   const id = getId();
   const data = await customRequest(
     `INSERT INTO actions (id, botId, type, extraData) VALUES ("${id}", "${botId}", "${type}", '${extraData}')`,
@@ -34,7 +36,7 @@ export const deleteActionById = async (id: string) => {
   const data = await customRequest(`DELETE FROM actions WHERE id = "${id}"`);
 
   changeBotAction();
-  await decActionsExecNum();
+  await decActionsExecNums();
 
   return data;
 };
@@ -51,7 +53,7 @@ export const deleteActionByType = async (type: string) => {
   const data = await customRequest(`DELETE FROM actions WHERE type = "${type}" AND botId = "${botData?.id}"`);
 
   changeBotAction();
-  await decActionsExecNum();
+  await decActionsExecNums();
 
   return data;
 };
@@ -64,8 +66,14 @@ export const deleteAllActions = async () => {
   return data;
 };
 
-export const decActionsExecNum = async () => {
+export const decActionsExecNums = async () => {
   const data = await customRequest(`UPDATE actions SET execNumber = execNumber - 1 WHERE botId = "${botData?.id}"`);
+
+  return data;
+};
+
+export const incActionsExecNums = async () => {
+  const data = await customRequest(`UPDATE actions SET execNumber = execNumber + 1 WHERE botId = "${botData?.id}"`);
 
   return data;
 };

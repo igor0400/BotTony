@@ -58,6 +58,7 @@ const replies = {
         : type === 'what'
         ? 'Я не понимаю что нести'
         : 'Я не понимаю кому и что нести',
+    wentForResources: () => 'Я за ресурсами',
   },
   en: {
     hello: (botName: string) => `Hi, everybody, I'm ${botName}`,
@@ -115,6 +116,7 @@ const replies = {
         : type === 'what'
         ? "I don't understand what to carry"
         : "I don't understand who to give what to",
+    wentForResources: () => 'I went for resources',
   },
 };
 

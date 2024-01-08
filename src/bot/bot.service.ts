@@ -122,3 +122,14 @@ export const stopBotChat = async () => {
   replyMessage(stop());
   await stopBot();
 };
+
+export const isEntityNear = (entity: any, radius = 20) => {
+  return (
+    Math.abs(entity.position.x - bot.entity.position.x) < radius &&
+    Math.abs(entity.position.z - bot.entity.position.z) < radius
+  );
+};
+
+export const getNearestItem = (radius?: number) => {
+  return bot.nearestEntity((e) => e.type === 'other' && e.name === 'item' && isEntityNear(e, radius));
+};

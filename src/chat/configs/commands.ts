@@ -6,7 +6,7 @@ import { fightPlayerChat, stopFightPlayerChat } from '../../fight/index.js';
 import { CommandType } from '../types/index.js';
 import { endGuardingChat, startGuardingChat } from '../../guard/index.js';
 import { whereChat } from '../../other/index.js';
-import { comeAndDropItemsChat } from '../../collect/index.js';
+import { comeAndDropItemsChat } from '../../resources/index.js';
 
 interface CommandsType {
   private: {

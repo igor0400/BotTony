@@ -3,9 +3,6 @@ import { bot, createAction, endAction, getInventoryItem, lookToEntity } from '..
 import { changeMeOnText, repliesLocale } from '../locale/index.js';
 import { moveToPosPromise } from '../move/index.js';
 
-// распозновать itemName с пробелом
-// сделать itemsLocale
-
 export const dropItems = async (itemName: string, count?: number, entity?: any) => {
   if (entity) {
     await lookToEntity(entity, true, 0);

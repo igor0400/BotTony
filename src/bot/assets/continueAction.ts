@@ -6,7 +6,7 @@ import { endAction } from './endAction.js';
 import { changeBotAction } from './botState.js';
 import { fightPlayer } from '../../fight/index.js';
 import { startGuarding } from '../../guard/index.js';
-import { comeAndDropItems } from '../../collect/index.js';
+import { comeAndDropItems, reclaimResources } from '../../resources/index.js';
 
 // разделить все на отдельные файлы (continue.ts в каждой папке)
 
@@ -94,6 +94,11 @@ export const continueAction = async (isStart = false) => {
       await moveToPosPromise(cords);
       replyMessage(iInPosition());
       await endAction('go');
+      return true;
+    }
+
+    if (type === 'reclaim_resources') {
+      await reclaimResources(JSON.parse(extraData));
       return true;
     }
 
