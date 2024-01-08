@@ -109,7 +109,12 @@ const replies = {
     continueGeave: (item: string, player: string) => `I continue to carry ${item} ${player}`,
     notFoundItem: () => "I don't have it",
     endGeave: () => 'As asked',
-    badComeAndGeaveArgs: () => "I don't understand who to give what to",
+    badComeAndGeaveArgs: (type: 'all' | 'who' | 'what' = 'all') =>
+      type === 'who'
+        ? "I don't understand who to bring"
+        : type === 'what'
+        ? "I don't understand what to carry"
+        : "I don't understand who to give what to",
   },
 };
 
