@@ -68,6 +68,7 @@ export const startGuardingChat = async (args: string[], username: string) => {
 };
 
 export const stopGuarding = async () => {
+  bot.pathfinder.stop();
   await endAction('guard');
 };
 
