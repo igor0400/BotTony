@@ -123,6 +123,7 @@ function getItemNames(itemChatName: string, isStrict: boolean = false) {
 
 export const takeInventoryItem = (itemName: string, hand: 'hand' | 'off-hand' = 'hand') => {
   const item = getInventoryItem(itemName);
+
   if (item) {
     bot.equip(item, hand);
     return true;

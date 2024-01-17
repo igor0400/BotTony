@@ -23,6 +23,9 @@ export const takeMainItems = () => {
   setTimeout(() => takeInventoryItem('shield', 'off-hand'), 250);
 };
 
+// перевести сообщения
+// сделать continue
+
 // собирать ресы и если надо складывать в сундук, если его там нет -> ставить, если нет ресов на сундук -> нарубить
 
 export const collectBlocks = async (itemChatName: string, count = 1) => {
@@ -39,8 +42,6 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
       }
     }
   }
-
-  console.log(blocksTypes);
 
   if (!blocksTypes.length) {
     replyMessage('Я не знаю блоков с таким названием');
@@ -64,6 +65,8 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
     return;
   }
 
+  replyMessage('Думаю...');
+
   await createAction({ type: 'collect', extraData: JSON.stringify({ itemChatName, count }) });
 
   const blocksDisplayNames = blocksTypes.map((i) => i.displayName);
@@ -77,7 +80,11 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
     targets.push(bot.blockAt(blocksCords[i]));
   }
 
-  // чекать material: 'mineable/axe' блока и брать инструмент
+  const [type, tool] = blocksTypes[0]?.material?.split('/');
+
+  // мб чекать type для чего то
+
+  takeInventoryItem(tool);
 
   try {
     //@ts-ignore
