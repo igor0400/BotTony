@@ -5,6 +5,7 @@ import {
   botData,
   createAction,
   endAction,
+  getInventoryItems,
   getItemNamesByChatName,
   takeInventoryItem,
 } from '../bot/index.js';
@@ -13,7 +14,7 @@ import { moveToPos } from '../move/index.js';
 import { replyMessage } from '../common/index.js';
 
 export const takeMainItems = () => {
-  // взять мечь
+  // взять оружие
   setTimeout(() => {
     const isSword = takeInventoryItem('sword');
     if (!isSword) takeInventoryItem('axe');
@@ -23,9 +24,6 @@ export const takeMainItems = () => {
 };
 
 // собирать ресы и если надо складывать в сундук, если его там нет -> ставить, если нет ресов на сундук -> нарубить
-
-// переписать все, сделать отдельно функции и отдельно вызов их в чате с сообщениями!!!!!!!!!!!!!
-// переработать систему actions
 
 export const collectBlocks = async (itemChatName: string, count = 1) => {
   const itemNames = getItemNamesByChatName(itemChatName);
@@ -41,6 +39,8 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
       }
     }
   }
+
+  console.log(blocksTypes);
 
   if (!blocksTypes.length) {
     replyMessage('Я не знаю блоков с таким названием');
@@ -66,18 +66,18 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
 
   await createAction({ type: 'collect', extraData: JSON.stringify({ itemChatName, count }) });
 
-  const targets = [];
-  for (let i = 0; i < Math.min(blocksCords.length, count); i++) {
-    targets.push(bot.blockAt(blocksCords[i]));
-  }
-
   const blocksDisplayNames = blocksTypes.map((i) => i.displayName);
   const blocksNamesString =
     blocksDisplayNames.length > 3 ? `${blocksDisplayNames.slice(0, 3).join(', ')}...` : blocksDisplayNames.join(', ');
 
   replyMessage(`Иду собирать ${blocksNamesString}`);
 
-  console.log(targets);
+  const targets = [];
+  for (let i = 0; i < Math.min(blocksCords.length, count); i++) {
+    targets.push(bot.blockAt(blocksCords[i]));
+  }
+
+  // чекать material: 'mineable/axe' блока и брать инструмент
 
   try {
     //@ts-ignore
@@ -86,10 +86,12 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
     moveToPos(botData?.homeCords);
     replyMessage('Я домой');
   } catch (err) {
-    moveToPos(botData?.homeCords);
-    replyMessage('Я не смог дособирать, я домой');
+    // чекать сколько бот уже собрал
+    const items = await getInventoryItems('');
 
-    console.log(err);
+    // вызывать обновленный await bot.collectBlock.collect(targets);
+
+    console.log('Collect error:', err);
   } finally {
     await stopCollect();
   }

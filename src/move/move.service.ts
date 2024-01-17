@@ -11,7 +11,7 @@ export const setIsGoalReached = (value: boolean) => {
   isGoalReached = value;
 };
 
-export const moveToPos = (position: CordsType) => {
+export const moveToPos = async (position: CordsType) => {
   const defaultMove = new Movements(bot);
   defaultMove.canOpenDoors = true;
 
@@ -19,10 +19,8 @@ export const moveToPos = (position: CordsType) => {
 
   bot.pathfinder.setMovements(defaultMove);
   bot.pathfinder.setGoal(new goals.GoalBlock(position.x, position.y, position.z));
-};
 
-export const moveToPosPromise = (position: CordsType) => {
-  moveToPos(position);
+  await createAction({ type: 'go', extraData: JSON.stringify(position) });
 
   return new Promise((resolve) => {
     const interval = setInterval(() => {
@@ -79,11 +77,9 @@ export const moveToPosChat = async (args: string[], username: string = ownerName
 
   await endAllActions();
 
-  await createAction({ type: 'go', extraData: JSON.stringify(cords) });
-
   replyMessage(alreadyRun());
-  await moveToPosPromise(cords);
+
+  await moveToPos(cords);
 
   replyMessage(iInPosition());
-  await endAction('go');
 };

@@ -1,7 +1,7 @@
 import { getPlayer, getPlayerWithErrMess, replyMessage } from '../common/index.js';
 import { bot, createAction, endAction, getInventoryItem, lookToEntity } from '../bot/index.js';
 import { changeMeOnText, repliesLocale } from '../locale/index.js';
-import { moveToPosPromise } from '../move/index.js';
+import { moveToPos } from '../move/index.js';
 
 export const dropItems = async (itemName: string, count?: number, entity?: any) => {
   if (entity) {
@@ -50,7 +50,7 @@ export const comeAndDropItems = async (playerName: string, itemName: string, cou
     extraData: JSON.stringify({ playerName, itemName, count }),
   });
 
-  await moveToPosPromise(player.entity.position.offset(1, 0, 1));
+  await moveToPos(player.entity.position.offset(1, 0, 1));
 
   await dropItems(itemName, count, player.entity);
 

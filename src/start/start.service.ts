@@ -1,6 +1,7 @@
 import minecraftData from 'minecraft-data';
-import { bot, setHomePos, botData, continueAction } from '../bot/index.js';
+import { bot, setHomePos, botData } from '../bot/index.js';
 import { botChatName, repliesLocale } from '../locale/index.js';
+import { continueAction } from '../continue/index.js';
 
 export let mcData;
 export let isBotInited = false;

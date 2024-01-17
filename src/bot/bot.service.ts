@@ -53,31 +53,41 @@ export const lookToNearPlayer = async () => {
   await lookToEntity(entity);
 };
 
+function filterInventoryItems(item, itemNames: string[]) {
+  let result = false;
+
+  for (let itemName of itemNames) {
+    if (item.name.includes(itemName) || item.displayName.toLowerCase().includes(itemName)) {
+      result = true;
+    }
+  }
+
+  return result;
+}
+
 export const getInventoryItem = (itemChatName: string) => {
   const itemNames = getItemNamesByChatName(itemChatName);
 
-  const item = bot.inventory.items().find((item) => {
-    let result = false;
-
-    for (let itemName of itemNames) {
-      if (item.name.includes(itemName) || item.displayName.toLowerCase().includes(itemName)) {
-        result = true;
-      }
-    }
-
-    return result;
-  });
+  const item = bot.inventory.items().find((item) => filterInventoryItems(item, itemNames));
 
   return item;
+};
+
+export const getInventoryItems = (itemChatName: string) => {
+  const itemNames = getItemNamesByChatName(itemChatName);
+
+  const items = bot.inventory.items().filter((item) => filterInventoryItems(item, itemNames));
+
+  return items;
 };
 
 export function getItemNamesByChatName(itemChatName: string) {
   let itemNames = getItemNames(itemChatName);
 
-  if (itemNames.length > 1) {
+  if (itemNames.length > 2) {
     itemNames = getItemNames(itemChatName, true);
   }
-  if (itemNames.length === 0) {
+  if (itemNames.length < 2) {
     itemNames = getItemNames(itemChatName);
   }
 

@@ -1,7 +1,8 @@
 import { lookToNearPlayer } from './bot.service.js';
-import { botAction, botData, continueAction } from './assets/index.js';
+import { botAction, botData } from './assets/index.js';
 import { bot } from './init.js';
 import { moveToPos } from '../move/index.js';
+import { continueAction } from '../continue/index.js';
 
 bot.on('physicsTick', async () => {
   const validActions = ['follow', 'guard'];

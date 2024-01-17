@@ -1,18 +1,19 @@
 import { repliesLocale } from '../locale/index.js';
-import { botData, continueAction, endAction, getNearestItem } from '../bot/index.js';
+import { botData, endAction, getNearestItem } from '../bot/index.js';
 import { CordsType, replyMessage } from '../common/index.js';
-import { moveToPos, moveToPosPromise } from '../move/index.js';
+import { moveToPos } from '../move/index.js';
+import { continueAction } from '../continue/index.js';
 
 export const reclaimResources = async (deadCords: CordsType) => {
   const { wentForResources } = repliesLocale;
 
   replyMessage(wentForResources());
-  await moveToPosPromise(deadCords);
+  await moveToPos(deadCords);
 
   let nearestItem = getNearestItem();
 
   while (nearestItem) {
-    await moveToPosPromise(nearestItem.position);
+    await moveToPos(nearestItem.position);
     nearestItem = getNearestItem();
   }
 
