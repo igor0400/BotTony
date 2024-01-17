@@ -54,14 +54,7 @@ export const lookToNearPlayer = async () => {
 };
 
 export const getInventoryItem = (itemChatName: string) => {
-  let itemNames = getItemNames(itemChatName);
-
-  if (itemNames.length > 1) {
-    itemNames = getItemNames(itemChatName, true);
-  }
-  if (itemNames.length === 0) {
-    itemNames = getItemNames(itemChatName);
-  }
+  const itemNames = getItemNamesByChatName(itemChatName);
 
   const item = bot.inventory.items().find((item) => {
     let result = false;
@@ -77,6 +70,19 @@ export const getInventoryItem = (itemChatName: string) => {
 
   return item;
 };
+
+export function getItemNamesByChatName(itemChatName: string) {
+  let itemNames = getItemNames(itemChatName);
+
+  if (itemNames.length > 1) {
+    itemNames = getItemNames(itemChatName, true);
+  }
+  if (itemNames.length === 0) {
+    itemNames = getItemNames(itemChatName);
+  }
+
+  return itemNames;
+}
 
 function getItemNames(itemChatName: string, isStrict: boolean = false) {
   const itemNames = [itemChatName];
@@ -107,7 +113,10 @@ function getItemNames(itemChatName: string, isStrict: boolean = false) {
 
 export const takeInventoryItem = (itemName: string, hand: 'hand' | 'off-hand' = 'hand') => {
   const item = getInventoryItem(itemName);
-  if (item) bot.equip(item, hand);
+  if (item) {
+    bot.equip(item, hand);
+    return true;
+  }
 };
 
 export const stopBot = async () => {

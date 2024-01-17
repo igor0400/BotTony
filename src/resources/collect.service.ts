@@ -1,14 +1,127 @@
-import { bot, takeInventoryItem } from '../bot/index.js';
+import { mcData } from '../start/index.js';
+import {
+  bot,
+  botAction,
+  botData,
+  createAction,
+  endAction,
+  getItemNamesByChatName,
+  takeInventoryItem,
+} from '../bot/index.js';
 import { collectingFood } from './configs/index.js';
+import { moveToPos } from '../move/index.js';
+import { replyMessage } from '../common/index.js';
 
 export const takeMainItems = () => {
   // взять мечь
-  setTimeout(() => takeInventoryItem('sword'), 150);
+  setTimeout(() => {
+    const isSword = takeInventoryItem('sword');
+    if (!isSword) takeInventoryItem('axe');
+  }, 150);
   // взять щит
   setTimeout(() => takeInventoryItem('shield', 'off-hand'), 250);
 };
 
-// подходить и складывать ресы в сундук, если его там нет, ставить, если нет ресов на сундук сказать
+// собирать ресы и если надо складывать в сундук, если его там нет -> ставить, если нет ресов на сундук -> нарубить
+
+// переписать все, сделать отдельно функции и отдельно вызов их в чате с сообщениями!!!!!!!!!!!!!
+// переработать систему actions
+
+export const collectBlocks = async (itemChatName: string, count = 1) => {
+  const itemNames = getItemNamesByChatName(itemChatName);
+
+  // если это еда, вызывать collectFood
+
+  const blocksTypes = [];
+
+  for (let blockName in mcData.blocksByName) {
+    for (let itemName of itemNames) {
+      if (blockName.includes(itemName)) {
+        blocksTypes.push(mcData.blocksByName[blockName]);
+      }
+    }
+  }
+
+  if (!blocksTypes.length) {
+    replyMessage('Я не знаю блоков с таким названием');
+    return;
+  }
+
+  const blocksCords = [];
+
+  for (let blockType of blocksTypes) {
+    blocksCords.push(
+      ...bot.findBlocks({
+        matching: blockType.id,
+        maxDistance: 64,
+        count: count,
+      }),
+    );
+  }
+
+  if (!blocksCords.length) {
+    replyMessage('Нет таких болоков поблизости');
+    return;
+  }
+
+  await createAction({ type: 'collect', extraData: JSON.stringify({ itemChatName, count }) });
+
+  const targets = [];
+  for (let i = 0; i < Math.min(blocksCords.length, count); i++) {
+    targets.push(bot.blockAt(blocksCords[i]));
+  }
+
+  const blocksDisplayNames = blocksTypes.map((i) => i.displayName);
+  const blocksNamesString =
+    blocksDisplayNames.length > 3 ? `${blocksDisplayNames.slice(0, 3).join(', ')}...` : blocksDisplayNames.join(', ');
+
+  replyMessage(`Иду собирать ${blocksNamesString}`);
+
+  console.log(targets);
+
+  try {
+    //@ts-ignore
+    await bot.collectBlock.collect(targets);
+    replyMessage('Готово');
+    moveToPos(botData?.homeCords);
+    replyMessage('Я домой');
+  } catch (err) {
+    moveToPos(botData?.homeCords);
+    replyMessage('Я не смог дособирать, я домой');
+
+    console.log(err);
+  } finally {
+    await stopCollect();
+  }
+};
+
+export const stopCollect = async () => {
+  if (botAction.type === 'collect') {
+    await endAction('collect');
+    bot.pathfinder.stop();
+  }
+};
+
+export const collectItemsChat = async (args: string[], username: string) => {
+  const filteredArgs = args;
+  let count;
+
+  function remArg(arg: string) {
+    const argIndex = filteredArgs.indexOf(arg);
+    if (argIndex > -1) {
+      filteredArgs.splice(argIndex, 1);
+    }
+  }
+
+  for (let arg of filteredArgs) {
+    if (+arg) {
+      count = +arg;
+      remArg(arg);
+    }
+  }
+
+  await collectBlocks(filteredArgs.join(' '), count);
+};
 
 // export const checkStopCollectingFood = () => {
 //   let isStopCollecting = false;
@@ -24,74 +137,22 @@ export const takeMainItems = () => {
 //   return isStopCollecting;
 // };
 
-// // собирать блоки
-
-// async function collectBlocks(args) {
-//    let count = 1;
-//    if (args[2]) count = parseInt(args[2]);
-
-//    const blockType = mcData.blocksByName[args[1]];
-//    if (!blockType) {
-//       bot.chat('Я не знаю блоков с таким названием');
-//       return;
-//    }
-
-//    const blocks = bot.findBlocks({
-//       matching: blockType.id,
-//       maxDistance: 64,
-//       count: count,
-//    });
-
-//    if (blocks.length === 0) {
-//       bot.chat('Нет таких болоков поблизости');
-//       return;
-//    }
-
-//    const targets = [];
-//    for (let i = 0; i < Math.min(blocks.length, count); i++) {
-//       targets.push(bot.blockAt(blocks[i]));
-//    }
-//    bot.chat(`Иду собирать ${targets.length} ${blockType.displayName}`);
-
-//    try {
-//       collecting = blockType.displayName;
-//       await bot.collectBlock.collect(targets);
-//       stopCollect();
-//       bot.chat('Готово');
-//       moveToPos(homePos);
-//       bot.chat('Я домой');
-//    } catch (err) {
-//       bot.chat(`Ошибка: ${err.message}`);
-//       moveToPos(homePos);
-//       bot.chat('Я домой');
-//    }
-// }
-
-// function stopCollect() {
-//    if (collecting) {
-//       bot.chat(`Я больше не собираю ${collecting}`);
-//       collecting = false;
-//    }
-// }
-
 // // НЕ РАБОТАЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕЕТТТТ!!!!!!!!!!!!!!!!!!!!!!
-// async function collectFood() {
-//    if (!checkNeedFood()) {
-//       const filter = (e) =>
-//          e.type === 'mob' &&
-//          e.position.distanceTo(bot.entity.position) < 100 &&
-//          foodMobs.includes(e.displayName);
+// export const collectFood = async () => {
+//   if (!checkNeedFood()) {
+//     const filter = (e) =>
+//       e.type === 'mob' && e.position.distanceTo(bot.entity.position) < 100 && foodMobs.includes(e.displayName);
 
-//       const entity = bot.nearestEntity(filter);
-//       if (entity) {
-//          collecting = entity.displayName;
-//          bot.chat('Иду добывать еду');
-//          await moveToPos(entity.position);
-//          await attackSome(entity);
-//          // await collectFood();
-//       } else bot.chat('Я не нашёл мобов для добычи еды');
-//    } else {
-//       bot.chat('Еды достаточно, я домой');
-//       moveToPos(homePos);
-//    }
-// }
+//     const entity = bot.nearestEntity(filter);
+//     if (entity) {
+//       collecting = entity.displayName;
+//       replyMessage('Иду добывать еду');
+//       await moveToPos(entity.position);
+//       await attackSome(entity);
+//       // await collectFood();
+//     } else replyMessage('Я не нашёл мобов для добычи еды');
+//   } else {
+//     replyMessage('Еды достаточно, я домой');
+//     moveToPos(homePos);
+//   }
+// };
