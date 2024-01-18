@@ -14,13 +14,18 @@ import { moveToPos } from '../move/index.js';
 import { replyMessage } from '../common/index.js';
 
 export const takeMainItems = () => {
-  // взять оружие
-  setTimeout(() => {
-    const isSword = takeInventoryItem('sword');
-    if (!isSword) takeInventoryItem('axe');
-  }, 150);
-  // взять щит
-  setTimeout(() => takeInventoryItem('shield', 'off-hand'), 250);
+  const validActions = ['fight', 'guard'];
+
+  if (!botAction?.type || validActions.includes(botAction?.type)) {
+    // взять оружие
+    setTimeout(() => {
+      const isSword = takeInventoryItem('sword');
+      if (!isSword) takeInventoryItem('axe');
+    }, 150);
+
+    // взять щит
+    setTimeout(() => takeInventoryItem('shield', 'off-hand'), 250);
+  }
 };
 
 // перевести сообщения
@@ -28,10 +33,11 @@ export const takeMainItems = () => {
 
 // собирать ресы и если надо складывать в сундук, если его там нет -> ставить, если нет ресов на сундук -> нарубить
 
-export const collectBlocks = async (itemChatName: string, count = 1) => {
-  const itemNames = getItemNamesByChatName(itemChatName);
+// собирать шерсть
+// просклонять items
 
-  // если это еда, вызывать collectFood
+export const collectBlocks = async (itemChatName: string, count = 1, isSendErrors = true) => {
+  const itemNames = getItemNamesByChatName(itemChatName);
 
   const blocksTypes = [];
 
@@ -43,9 +49,8 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
     }
   }
 
-  if (!blocksTypes.length) {
-    replyMessage('Я не знаю блоков с таким названием');
-    return;
+  if (!blocksTypes.length && isSendErrors) {
+    return replyMessage('Я не знаю блоков с таким названием');
   }
 
   const blocksCords = [];
@@ -60,29 +65,26 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
     );
   }
 
-  if (!blocksCords.length) {
-    replyMessage('Нет таких болоков поблизости');
-    return;
+  if (!blocksCords.length && isSendErrors) {
+    return replyMessage('Нет таких болоков поблизости');
   }
-
-  replyMessage('Думаю...');
-
-  await createAction({ type: 'collect', extraData: JSON.stringify({ itemChatName, count }) });
-
-  const blocksDisplayNames = blocksTypes.map((i) => i.displayName);
-  const blocksNamesString =
-    blocksDisplayNames.length > 3 ? `${blocksDisplayNames.slice(0, 3).join(', ')}...` : blocksDisplayNames.join(', ');
-
-  replyMessage(`Иду собирать ${blocksNamesString}`);
 
   const targets = [];
   for (let i = 0; i < Math.min(blocksCords.length, count); i++) {
     targets.push(bot.blockAt(blocksCords[i]));
   }
 
-  const [type, tool] = blocksTypes[0]?.material?.split('/');
+  if (isSendErrors) {
+    await createAction({ type: 'collect', extraData: JSON.stringify({ itemChatName, count }) });
 
-  // мб чекать type для чего то
+    const blocksDisplayNames = blocksTypes.map((i) => i.displayName);
+    const blocksNamesString =
+      blocksDisplayNames.length > 3 ? `${blocksDisplayNames.slice(0, 3).join(', ')}...` : blocksDisplayNames.join(', ');
+
+    replyMessage(`Иду собирать ${blocksNamesString}`);
+  }
+
+  const [type, tool] = blocksTypes[0]?.material?.split('/');
 
   takeInventoryItem(tool);
 
@@ -93,12 +95,18 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
     moveToPos(botData?.homeCords);
     replyMessage('Я домой');
   } catch (err) {
-    // чекать сколько бот уже собрал
-    const items = await getInventoryItems('');
+    const alreadyCollectedItems = [];
 
-    // вызывать обновленный await bot.collectBlock.collect(targets);
+    for (let block of blocksTypes) {
+      const items = getInventoryItems(block?.name);
+      alreadyCollectedItems.push(...items);
+    }
 
-    console.log('Collect error:', err);
+    const updatedCount = count - alreadyCollectedItems.length;
+
+    if (updatedCount > 0) {
+      return await collectBlocks(itemChatName, updatedCount, false);
+    }
   } finally {
     await stopCollect();
   }
@@ -107,7 +115,6 @@ export const collectBlocks = async (itemChatName: string, count = 1) => {
 export const stopCollect = async () => {
   if (botAction.type === 'collect') {
     await endAction('collect');
-    bot.pathfinder.stop();
   }
 };
 
@@ -128,6 +135,10 @@ export const collectItemsChat = async (args: string[], username: string) => {
       remArg(arg);
     }
   }
+
+  // если это еда, вызывать collectFood
+
+  bot.chat('Ищу...');
 
   await collectBlocks(filteredArgs.join(' '), count);
 };

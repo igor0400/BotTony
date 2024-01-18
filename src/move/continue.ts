@@ -12,6 +12,8 @@ export const continueGo = async (extraData: string) => {
   replyMessage(continueGoMess(cords));
   await moveToPos(cords);
   replyMessage(iInPosition());
+  await endAction('go');
+
   return true;
 };
 

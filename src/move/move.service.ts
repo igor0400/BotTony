@@ -5,30 +5,17 @@ import { ownerName } from '../../config.js';
 import { isEntityWord, repliesLocale } from '../locale/index.js';
 const { Movements, goals } = mineflayerPathfinder;
 
-export let isGoalReached = false;
-
-export const setIsGoalReached = (value: boolean) => {
-  isGoalReached = value;
-};
-
 export const moveToPos = async (position: CordsType) => {
   const defaultMove = new Movements(bot);
   defaultMove.canOpenDoors = true;
 
-  isGoalReached = false;
-
   bot.pathfinder.setMovements(defaultMove);
   bot.pathfinder.setGoal(new goals.GoalBlock(position.x, position.y, position.z));
 
-  await createAction({ type: 'go', extraData: JSON.stringify(position) });
-
   return new Promise((resolve) => {
-    const interval = setInterval(() => {
-      if (isGoalReached) {
-        clearInterval(interval);
-        resolve(true);
-      }
-    }, 100);
+    bot.on('goal_reached', async () => {
+      resolve(true);
+    });
   });
 };
 
@@ -79,7 +66,9 @@ export const moveToPosChat = async (args: string[], username: string = ownerName
 
   replyMessage(alreadyRun());
 
+  await createAction({ type: 'go', extraData: JSON.stringify(cords) });
   await moveToPos(cords);
+  await endAction('go');
 
   replyMessage(iInPosition());
 };
