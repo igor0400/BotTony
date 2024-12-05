@@ -6,12 +6,13 @@ bot.once('spawn', () => {
   bot.autoEat.options = {
     priority: 'foodPoints',
     startAt: 14,
-    bannedFood: ['golden_apple', 'enchanted_golden_apple', 'rotten_flesh', 'poisonous_potato', 'pufferfish'],
+    bannedFood: [1], // 'golden_apple', 'enchanted_golden_apple', 'rotten_flesh', 'poisonous_potato', 'pufferfish'
     eatingTimeout: 3000,
     ignoreInventoryCheck: false,
     checkOnItemPickup: true,
     offhand: false,
     equipOldItem: true,
+    healthThreshold: 10,
   };
 });
 

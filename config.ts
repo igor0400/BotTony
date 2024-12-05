@@ -9,7 +9,7 @@ export const lang = process.env.BOT_LANG ?? 'ru';
 
 // database
 export const databaseHost = process.env.DATABASE_HOST ?? 'localhost';
-export const databasePort = +process.env.DATABASE_PORT ?? 3306;
+export const databasePort = +process.env.DATABASE_PORT ?? 3307;
 export const databaseUser = process.env.DATABASE_USER ?? 'MainUser';
 export const databaseName = process.env.DATABASE_NAME ?? 'main_database';
 export const databasePassword =
